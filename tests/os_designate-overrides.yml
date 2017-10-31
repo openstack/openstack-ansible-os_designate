@@ -16,8 +16,6 @@
 
 designate_venv_tag: "testing"
 designate_developer_mode: true
-designate_git_install_branch: master
-designate_requirements_git_install_branch: master
 designate_service_password: "secrete"
 designate_galera_address: "{{ hostvars[groups['galera_all'][0]]['ansible_host'] }}"
 designate_galera_database: designate
@@ -57,7 +55,7 @@ tempest_run: yes
 tempest_plugins:
   - name: designate-tempest-plugin
     repo: https://git.openstack.org/openstack/designate-tempest-plugin
-    branch: master
+    branch: 0.2.0
 
 tempest_test_whitelist:
   - designate_tempest_plugin.tests.scenario.v2.test_zones
