@@ -16,8 +16,6 @@
 
 designate_venv_tag: "testing"
 designate_developer_mode: true
-designate_git_install_branch: master
-designate_requirements_git_install_branch: master
 designate_service_password: "secrete"
 designate_galera_address: "{{ hostvars[groups['galera_all'][0]]['ansible_host'] }}"
 designate_galera_database: designate
