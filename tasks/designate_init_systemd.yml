@@ -21,7 +21,7 @@
     group: "{{ designate_system_group_name }}"
     mode: "02755"
   with_dict: "{{ designate_services }}"
-  when: inventory_hostname in groups[item.value.group]
+  when: "item.value.group in group_names"
 
 - name: Create TEMP lock dir
   file:
@@ -31,7 +31,7 @@
     group: "{{ designate_system_group_name }}"
     mode: "02755"
   with_dict: "{{ designate_services }}"
-  when: inventory_hostname in groups[item.value.group]
+  when: "item.value.group in group_names"
 
 - name: Create tempfile.d entry
   template:
@@ -41,7 +41,7 @@
     owner: "root"
     group: "root"
   with_dict: "{{ designate_services }}"
-  when: inventory_hostname in groups[item.value.group]
+  when: "item.value.group in group_names"
   notify:
     - Restart designate services
 
@@ -55,6 +55,6 @@
     config_overrides: "{{ item.value.init_config_overrides }}"
     config_type: "ini"
   with_dict: "{{ designate_services }}"
-  when: inventory_hostname in groups[item.value.group]
+  when: "item.value.group in group_names"
   notify:
     - Restart designate services

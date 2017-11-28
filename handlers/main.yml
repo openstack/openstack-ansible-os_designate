@@ -28,7 +28,7 @@
     state: "stopped"
     daemon_reload: "{{ (ansible_service_mgr == 'systemd') | ternary('yes', omit) }}"
   with_dict: "{{ designate_services }}"
-  when: inventory_hostname in groups[item.value.group]
+  when: "item.value.group in group_names"
   register: _stop
   until: _stop | success
   retries: 5
@@ -58,7 +58,7 @@
     state: "started"
     daemon_reload: "{{ (ansible_service_mgr == 'systemd') | ternary('yes', omit) }}"
   with_dict: "{{ designate_services }}"
-  when: inventory_hostname in groups[item.value.group]
+  when: "item.value.group in group_names"
   register: _start
   until: _start | success
   retries: 5
