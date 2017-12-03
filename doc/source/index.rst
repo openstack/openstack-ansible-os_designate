@@ -27,8 +27,12 @@ Default variables
    :language: yaml
    :start-after: under the License.
 
-Required variables
-~~~~~~~~~~~~~~~~~~
+Dependencies
+~~~~~~~~~~~~
+
+This role needs pip >= 7.1 installed on the target host.
+
+This role needs the following variables defined:
 
 .. code-block:: yaml
 
@@ -44,9 +48,8 @@ Example playbook
    :language: yaml
 
 Tags
-^^^^
+~~~~
 
 This role supports two tags: ``designate-install`` and ``designate-config``.
 The ``designate-install`` tag can be used to install and upgrade. The
 ``designate-config`` tag can be used to maintain configuration of the service.
-
