@@ -35,7 +35,7 @@
         dest: "{{ named_config_file }}"
     - name: fix perms for named directory (centos)
       file:
-        mode: '770'
+        mode: '0770'
         state: directory
         path: '/var/named/'
         owner: 'root'
