@@ -407,8 +407,12 @@ connection = mysql+pymysql://{{ designate_galera_user }}:{{ designate_galera_pas
 #domain_id =
 #notification_topics = notifications
 #control_exchange = 'nova'
-#format = '%(octet0)s-%(octet1)s-%(octet2)s-%(octet3)s.%(domain)s'
-#format = '%(hostname)s.%(domain)s'
+##Following https://docs.openstack.org/releasenotes/designate/pike.html#critical-issues
+#formatv4 = '%(octet0)s-%(octet1)s-%(octet2)s-%(octet3)s.%(zone)s'
+#formatv4 = '%(hostname)s.%(project)s.%(zone)s'
+#formatv4 = '%(hostname)s.%(zone)s'
+#formatv6 = '%(hostname)s.%(project)s.%(zone)s'
+#formatv6 = '%(hostname)s.%(zone)s'
 
 #------------------------
 # Neutron Floating Handler
@@ -418,8 +422,12 @@ connection = mysql+pymysql://{{ designate_galera_user }}:{{ designate_galera_pas
 #domain_id =
 #notification_topics = notifications
 #control_exchange = 'neutron'
-#format = '%(octet0)s-%(octet1)s-%(octet2)s-%(octet3)s.%(domain)s'
-#format = '%(hostname)s.%(domain)s'
+##Following https://docs.openstack.org/releasenotes/designate/pike.html#critical-issues
+#formatv4 = '%(octet0)s-%(octet1)s-%(octet2)s-%(octet3)s.%(zone)s'
+#formatv4 = '%(hostname)s.%(project)s.%(zone)s'
+#formatv4 = '%(hostname)s.%(zone)s'
+#formatv6 = '%(hostname)s.%(project)s.%(zone)s'
+#formatv6 = '%(hostname)s.%(zone)s'
 
 #############################
 ## Agent Backend Configuration
