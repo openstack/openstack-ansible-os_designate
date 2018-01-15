@@ -140,7 +140,6 @@ designate_service_in_ldap: False
 # designate packages that must be installed before anything else
 designate_requires_pip_packages:
   - virtualenv
-  - virtualenv-tools
   - python-keystoneclient # Keystoneclient needed by OSA keystone lib
   - httplib2
 

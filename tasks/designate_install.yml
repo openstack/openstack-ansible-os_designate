@@ -112,10 +112,12 @@
     - designate_get_venv | changed
 
 - name: Update virtualenv path
-  command: >
-    virtualenv-tools --update-path=auto --reinitialize {{ designate_bin | dirname }}
+  shell: |
+    find {{ designate_bin }} -name \*.pyc -delete
+    sed -si '1s/^.*python.*$/#!{{ designate_bin | replace ('/','\/') }}\/python/' {{ designate_bin }}/*
   when: designate_get_venv | changed
-
+  tags:
+    - skip_ansible_lint
 - name: Record the venv tag deployed
   ini_file:
     dest: "/etc/ansible/facts.d/openstack_ansible.fact"
