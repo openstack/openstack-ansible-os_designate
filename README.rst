@@ -17,4 +17,4 @@ Documentation for the project can be found at:
   https://docs.openstack.org/openstack-ansible-os_designate/latest
 
 The project home is at:
-  http://launchpad.net/openstack-ansible
+  https://launchpad.net/openstack-ansible
