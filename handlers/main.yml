@@ -14,13 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Restart designate services
-  command: "/bin/true"
-  notify:
-    - Stop services
-    - Copy new policy file into place
-    - Start services
-
 - name: Stop services
   service:
     name: "{{ item.value.service_name }}"
@@ -33,6 +26,7 @@
   until: _stop | success
   retries: 5
   delay: 2
+  listen: Restart designate services
 
 # Note (odyssey4me):
 # The policy.json file is currently read continually by the services
@@ -50,6 +44,7 @@
     group: "{{ designate_system_group_name }}"
     mode: "0640"
     remote_src: yes
+  listen: Restart designate services
 
 - name: Start services
   service:
@@ -63,3 +58,4 @@
   until: _start | success
   retries: 5
   delay: 2
+  listen: Restart designate services
