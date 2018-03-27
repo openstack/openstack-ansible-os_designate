@@ -30,6 +30,6 @@ designate_service_distro_packages:
 designate_rndc_packages:
   - bind-utils
 
-designate_developer_mode_distro_packages:
+designate_devel_distro_packages:
   - pkg-config
   - systemd-devel

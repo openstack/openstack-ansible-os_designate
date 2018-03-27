@@ -42,8 +42,19 @@ designate_developer_mode: False
 designate_developer_constraints:
   - "git+{{ designate_git_repo }}@{{ designate_git_install_branch }}#egg=designate"
 
+# TODO(odyssey4me):
+# This can be simplified once all the roles are using
+# python_venv_build. We can then switch to using a
+# set of constraints in pip.conf inside the venv,
+# perhaps prepared by giving a giving a list of
+# constraints to the role.
+designate_pip_install_args: >-
+  {{ designate_developer_mode | ternary(pip_install_developer_constraints | default('--constraint /opt/developer-pip-constraints.txt'), '') }}
+  {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''), '') }}
+  {{ pip_install_options | default('') }}
+
 # Name of the virtual env to deploy into
-designate_venv_tag: untagged
+designate_venv_tag: "{{ venv_tag | default('untagged') }}"
 designate_bin: "{{ _designate_bin }}"
 
 # Set the etc dir path where designate is installed.

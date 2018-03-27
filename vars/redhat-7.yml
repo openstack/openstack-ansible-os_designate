@@ -32,5 +32,5 @@ designate_service_distro_packages:
 designate_rndc_packages:
   - bind
 
-designate_developer_mode_distro_packages:
+designate_devel_distro_packages:
   - systemd-devel
