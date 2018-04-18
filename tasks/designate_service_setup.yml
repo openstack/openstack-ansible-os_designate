@@ -28,6 +28,7 @@
   until: add_service|success
   retries: 5
   delay: 2
+  no_log: True
 
 - name: Ensure designate user
   keystone:
@@ -45,6 +46,7 @@
   until: add_service|success
   retries: 5
   delay: 10
+  no_log: True
 
 - name: Ensure designate user to admin role
   keystone:
@@ -62,6 +64,7 @@
   until: add_service|success
   retries: 5
   delay: 10
+  no_log: True
 
 # Create an endpoint
 - name: Ensure designate endpoint
@@ -86,3 +89,4 @@
   until: add_service|success
   retries: 5
   delay: 10
+  no_log: True
