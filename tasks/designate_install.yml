@@ -40,7 +40,7 @@
     extra_args: >-
       {{ designate_developer_mode | ternary(pip_install_developer_constraints | default('--constraint /opt/developer-pip-constraints.txt'), '') }}
       {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''),'') }}
-      {{ pip_install_options | default('') }}
+      {{ pip_install_options + ' --isolated' | default('--isolated') }}
   register: install_packages
   until: install_packages|success
   retries: 5
@@ -93,7 +93,7 @@
     extra_args: >-
       {{ designate_developer_mode | ternary(pip_install_developer_constraints | default('--constraint /opt/developer-pip-constraints.txt'), '') }}
       {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''),'') }}
-      {{ pip_install_options | default('') }}
+      {{ pip_install_options + ' --isolated' | default('--isolated') }}
   register: install_packages
   until: install_packages|success
   retries: 5
