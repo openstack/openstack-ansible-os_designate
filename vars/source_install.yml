@@ -1,5 +1,5 @@
 ---
-# Copyright 2016, Intel Corporation.
+# Copyright 2018, SUSE LINUX GmbH.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,20 +12,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-## APT Cache options
-cache_timeout: 600
-
-# Common apt packages
-designate_distro_packages: []
-
-designate_service_distro_packages:
-  - designate
-  - designate-agent
-  - designate-api
-  - designate-central
-  - designate-pool-manager
-  - designate-producer
-  - designate-sink
-  - designate-worker
-  - designate-zone-manager
+designate_package_list: "{{ designate_distro_packages }}"
+_designate_bin: "/openstack/venvs/designate-{{ designate_venv_tag }}/bin"
+_designate_etc: "{{ _designate_bin | dirname + '/etc' }}"

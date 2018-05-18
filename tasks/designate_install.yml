@@ -13,9 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- name: Record the installation method
+  ini_file:
+    dest: "/etc/ansible/facts.d/openstack_ansible.fact"
+    section: "designate"
+    option: "install_method"
+    value: "{{ designate_install_method }}"
+
+- name: Refresh local facts to ensure the designate section is present
+  setup:
+    filter: ansible_local
+    gather_subset: "!all"
+
 - name: Install designate distro packages
   package:
-    name: "{{ designate_distro_packages }}"
+    name: "{{ designate_package_list }}"
     state: "{{ designate_package_state }}"
     update_cache: "{{ (ansible_pkg_mgr in ['apt', 'zypper']) | ternary('yes', omit) }}"
     cache_valid_time: "{{ (ansible_pkg_mgr == 'apt') | ternary(cache_timeout, omit) }}"
@@ -24,115 +36,6 @@
   retries: 5
   delay: 2
 
-- name: Create developer mode constraint file
-  copy:
-    dest: "/opt/developer-pip-constraints.txt"
-    content: |
-      {% for item in designate_developer_constraints %}
-      {{ item }}
-      {% endfor %}
-  when: designate_developer_mode | bool
-
-- name: Install requires pip packages
-  pip:
-    name: "{{ designate_requires_pip_packages }}"
-    state: "{{ designate_pip_package_state }}"
-    extra_args: >-
-      {{ designate_developer_mode | ternary(pip_install_developer_constraints | default('--constraint /opt/developer-pip-constraints.txt'), '') }}
-      {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''),'') }}
-      {{ pip_install_options | default('') }}
-  register: install_packages
-  until: install_packages|success
-  retries: 5
-  delay: 2
-
-- name: Retrieve checksum for venv download
-  uri:
-    url: "{{ designate_venv_download_url | replace('tgz', 'checksum') }}"
-    return_content: yes
-  register: designate_venv_checksum
-  when: designate_venv_download | bool
-
-- name: Attempt venv download
-  get_url:
-    url: "{{ designate_venv_download_url }}"
-    dest: "/var/cache/{{ designate_venv_download_url | basename }}"
-    checksum: "sha1:{{ designate_venv_checksum.content | trim }}"
-  register: designate_get_venv
-  when: designate_venv_download | bool
-
-- name: Remove existing venv
-  file:
-    path: "{{ designate_bin | dirname }}"
-    state: absent
-  when: designate_get_venv | changed
-
-- name: Create designate venv dir
-  file:
-    path: "{{ designate_bin | dirname }}"
-    state: directory
-    mode: "0755"
-  register: designate_venv_dir
-  when: designate_get_venv | changed
-
-- name: Unarchive pre-built venv
-  unarchive:
-    src: "/var/cache/{{ designate_venv_download_url | basename }}"
-    dest: "{{ designate_bin | dirname }}"
-    copy: "no"
-  when: designate_get_venv | changed
-  notify:
-    - Restart designate services
-
-- name: Install pip packages
-  pip:
-    name: "{{ designate_pip_packages }}"
-    state: "{{ designate_pip_package_state }}"
-    virtualenv: "{{ designate_bin | dirname }}"
-    virtualenv_site_packages: "no"
-    extra_args: >-
-      {{ designate_developer_mode | ternary(pip_install_developer_constraints | default('--constraint /opt/developer-pip-constraints.txt'), '') }}
-      {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''),'') }}
-      {{ pip_install_options | default('') }}
-  register: install_packages
-  until: install_packages|success
-  retries: 5
-  delay: 2
-  when: designate_get_venv | failed or designate_get_venv | skipped
-  notify:
-    - Restart designate services
-
-- name: Remove python from path first (CentOS, openSUSE)
-  file:
-    path:  "{{ designate_bin | dirname }}/bin/python2.7"
-    state: "absent"
-  when:
-    - ansible_pkg_mgr in ['yum', 'dnf', 'zypper']
-    - not designate_developer_mode | bool
-    - designate_get_venv | changed
-
-# NOTE(odyssey4me):
-# We reinitialize the venv to ensure that the right
-# version of python is in the venv, but we do not
-# want virtualenv to also replace pip, setuptools
-# and wheel so we tell it not to.
-# We do not use --always-copy for CentOS/SuSE due
-# to https://github.com/pypa/virtualenv/issues/565
-- name: Update virtualenv path
-  shell: |
-    find {{ designate_bin }} -name \*.pyc -delete
-    sed -si '1s/^.*python.*$/#!{{ designate_bin | replace ('/','\/') }}\/python/' {{ designate_bin }}/*
-    virtualenv {{ designate_bin | dirname }} \
-        {{ (ansible_pkg_mgr == 'apt') | ternary('--always-copy', '') }} \
-        --no-pip \
-        --no-setuptools \
-        --no-wheel
-  when: designate_get_venv | changed
-  tags:
-    - skip_ansible_lint
-- name: Record the venv tag deployed
-  ini_file:
-    dest: "/etc/ansible/facts.d/openstack_ansible.fact"
-    section: designate
-    option: venv_tag
-    value: "{{ designate_venv_tag }}"
+- name: Install designate packages from PIP
+  include_tasks: designate_install_source.yml
+  when: designate_install_method == 'source'

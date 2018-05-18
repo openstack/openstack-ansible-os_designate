@@ -21,6 +21,9 @@ debug: False
 designate_package_state: "latest"
 designate_pip_package_state: "latest"
 
+# Set installation method.
+designate_install_method: "source"
+
 ## The git source/branch
 designate_git_repo: https://git.openstack.org/openstack/designate
 designate_git_install_branch: master
@@ -36,13 +39,13 @@ designate_developer_constraints:
 
 # Name of the virtual env to deploy into
 designate_venv_tag: untagged
-designate_bin: "/openstack/venvs/designate-{{ designate_venv_tag }}/bin"
+designate_bin: "{{ _designate_bin }}"
 
 # Set the etc dir path where designate is installed.
 #  This is used for role access to the db migrations.
 #  Example:
 #  designate_etc_dir: "/usr/local/etc/designate"
-designate_etc_dir: "{{ designate_bin | dirname }}/etc/designate"
+designate_etc_dir: "{{ _designate_etc }}/designate"
 
 # venv_download, even when true, will use the fallback method of building the
 # venv from scratch if the venv download fails.

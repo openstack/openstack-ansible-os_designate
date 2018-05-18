@@ -27,7 +27,6 @@ designate_rabbitmq_vhost: /designate
 designate_rabbitmq_servers: "{{ rabbitmq_servers }}"
 designate_rabbitmq_use_ssl: "{{ rabbitmq_use_ssl }}"
 designate_rabbitmq_port: "{{ rabbitmq_port }}"
-designate_bin: "/openstack/venvs/designate-{{ designate_venv_tag }}/bin"
 designate_pools_yaml:
   - name: "default"
     description: Default BIND9 Pool

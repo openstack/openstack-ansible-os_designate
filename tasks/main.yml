@@ -13,6 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- name: Fail if service was deployed using a different installation method
+  fail:
+    msg: "Switching installation methods for OpenStack services is not supported"
+  when:
+    - ansible_local is defined
+    - ansible_local.openstack_ansible is defined
+    - ansible_local.openstack_ansible.designate is defined
+    - ansible_local.openstack_ansible.designate.install_method is defined
+    - ansible_local.openstack_ansible.designate.install_method != designate_install_method
+
 - name: Gather variables for each operating system
   include_vars: "{{ item }}"
   with_first_found:
@@ -21,6 +31,11 @@
     - "{{ ansible_os_family | lower }}-{{ ansible_distribution_major_version | lower }}.yml"
     - "{{ ansible_distribution | lower }}.yml"
     - "{{ ansible_os_family | lower }}.yml"
+  tags:
+    - always
+
+- name: Gather variables for installation method
+  include_vars: "{{ designate_install_method }}_install.yml"
   tags:
     - always
 

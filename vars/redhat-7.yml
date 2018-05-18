@@ -16,3 +16,14 @@
 # Common yum packages
 designate_distro_packages:
   - which
+
+designate_service_distro_packages:
+  - openstack-designate-agent
+  - openstack-designate-api
+  - openstack-designate-central
+  - openstack-designate-mdns
+  - openstack-designate-pool-manager
+  - openstack-designate-producer
+  - openstack-designate-sink
+  - openstack-designate-worker
+  - openstack-designate-zone-manager
