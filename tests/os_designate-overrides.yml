@@ -48,6 +48,13 @@ designate_pools_yaml:
           port: 53
           rndc_host: 127.0.0.1
           rndc_port: 953
+          rndc_key_file: /etc/rndc.key
+designate_rndc_keys:
+  - name: "rndc-key"
+    file: /etc/rndc.key
+    algorithm: "hmac-md5"
+    secret: 'DTngw5O8I5Axx631GjQ9pA=='
+    mode: "0644"
 
 tempest_run: yes
 

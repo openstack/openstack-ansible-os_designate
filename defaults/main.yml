@@ -118,6 +118,14 @@ designate_role_name: admin
 #           rndc_host: 127.0.0.1
 #           rndc_port: 953
 
+## rndc keys for authenticating with bind9
+# define this to create as many key files as are required
+# designate_rndc_keys
+#   - name: "rndc-key"
+#     file: /etc/designate/rndc.key
+#     algorithm: "hmac-md5"
+#     secret: "<key>"
+
 ## Service Type and Data
 designate_service_region: RegionOne
 designate_service_endpoint_type: internalURL

@@ -41,6 +41,14 @@ options {
         recursion no;
 };
 
+{% if designate_rndc_keys is defined %}
+include "/etc/rndc.key";
+
+controls {
+        inet 127.0.0.1 allow { localhost; } keys { "rndc-key"; };
+};
+{% endif %}
+
 {% if ansible_pkg_mgr in ['yum', 'dnf'] %}
 logging {
         channel default_debug {
@@ -52,12 +60,6 @@ logging {
 zone "." IN {
         type hint;
         file "named.ca";
-};
-
-include "/etc/rndc.key";
-
-controls {
-        inet 127.0.0.1 allow { localhost; } keys { "rndc-key"; };
 };
 
 include "/etc/named.rfc1912.zones";
@@ -89,4 +91,3 @@ zone "0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa" IN
 include "/etc/named.conf.include";
 
 {% endif %}
-

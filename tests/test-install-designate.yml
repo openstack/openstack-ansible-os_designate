@@ -53,5 +53,10 @@
     bind_service_state: "{{ (ansible_pkg_mgr == 'apt') | ternary('restarted','started') }}"
   roles:
     - role: "os_designate"
+  post_tasks:
+    - name: Restart bind9, for test purposes the designate role drops a common rndc key to both bind and designate
+      service:
+        name: "{{ bind_service_name }}"
+        state: restarted
   vars_files:
     - common/test-vars.yml

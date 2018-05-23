@@ -49,6 +49,16 @@
     dest: "/etc/designate/pools.yaml"
   when: designate_pools_yaml is defined
 
+- name: Create Designate rndc key file
+  template:
+    src: rndc.key.j2
+    dest: "{{ item.file }}"
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0600') }}"
+  with_items: "{{ designate_rndc_keys }}"
+  when: designate_rndc_keys is defined
+
 - name: Copy rootwrap filters
   copy:
     src: "{{ item }}"
