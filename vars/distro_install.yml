@@ -14,6 +14,13 @@
 # limitations under the License.
 #
 
-designate_package_list: "{{ designate_distro_packages + designate_service_distro_packages }}"
+designate_package_list: |-
+    {% set packages = designate_distro_packages %}
+    {% set _ = packages.extend(designate_service_distro_packages) %}
+    {% if designate_rndc_keys is defined %}
+    {%   set _ = packages.extend(designate_rndc_packages) %}
+    {% endif %}
+    {{ packages }}
+
 _designate_bin: "/usr/bin"
 _designate_etc: "/etc"

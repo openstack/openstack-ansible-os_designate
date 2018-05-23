@@ -29,3 +29,6 @@ designate_service_distro_packages:
   - designate-sink
   - designate-worker
   - designate-zone-manager
+
+designate_rndc_packages:
+  - bind9utils

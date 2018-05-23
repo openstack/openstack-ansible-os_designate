@@ -27,3 +27,6 @@ designate_service_distro_packages:
   - openstack-designate-sink
   - openstack-designate-worker
   - openstack-designate-zone-manager
+
+designate_rndc_packages:
+  - bind-utils
