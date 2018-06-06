@@ -18,10 +18,13 @@
   user: root
   gather_facts: true
   pre_tasks:
-    - include: common/ensure-rabbitmq.yml
-      vhost_name: "{{ designate_rabbitmq_vhost }}"
-      user_name: "{{ designate_rabbitmq_userid }}"
-      user_password: "{{ designate_rabbitmq_password }}"
+    - include: common/ensure-oslomsg.yml
+      rpc_vhost: "{{ designate_oslomsg_rpc_vhost }}"
+      rpc_user: "{{ designate_oslomsg_rpc_userid }}"
+      rpc_password: "{{ designate_oslomsg_rpc_password }}"
+      notify_vhost: "{{ designate_oslomsg_notify_vhost }}"
+      notify_user: "{{ designate_oslomsg_notify_userid }}"
+      notify_password: "{{ designate_oslomsg_notify_password }}"
     - include: common/create-grant-db.yml
       db_name: "{{ designate_galera_user }}"
       db_password: "{{ designate_galera_password }}"

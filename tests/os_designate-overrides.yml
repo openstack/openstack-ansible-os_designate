@@ -21,12 +21,18 @@ designate_galera_address: "{{ hostvars[groups['galera_all'][0]]['ansible_host'] 
 designate_galera_database: designate
 designate_galera_user: designate
 designate_galera_password: "SuperSecrete"
-designate_rabbitmq_password: "secrete"
-designate_rabbitmq_userid: designate
-designate_rabbitmq_vhost: /designate
-designate_rabbitmq_servers: "{{ rabbitmq_servers }}"
-designate_rabbitmq_use_ssl: "{{ rabbitmq_use_ssl }}"
-designate_rabbitmq_port: "{{ rabbitmq_port }}"
+designate_oslomsg_rpc_password: "secrete"
+designate_oslomsg_rpc_userid: designate-rpc
+designate_oslomsg_rpc_vhost: /designate
+designate_oslomsg_rpc_servers: "{{ oslomsg_rpc_servers }}"
+designate_oslomsg_rpc_use_ssl: "{{ oslomsg_rpc_use_ssl }}"
+designate_oslomsg_rpc_port: "{{ oslomsg_rpc_port }}"
+designate_oslomsg_notify_password: "secrete"
+designate_oslomsg_notify_userid: designate-notify
+designate_oslomsg_notify_vhost: /designate
+designate_oslomsg_notify_servers: "{{ oslomsg_notify_servers }}"
+designate_oslomsg_notify_use_ssl: "{{ oslomsg_notify_use_ssl }}"
+designate_oslomsg_notify_port: "{{ oslomsg_notify_port }}"
 designate_pools_yaml:
   - name: "default"
     description: Default BIND9 Pool

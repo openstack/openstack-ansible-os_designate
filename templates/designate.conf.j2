@@ -29,13 +29,16 @@ root_helper = sudo designate-rootwrap /etc/designate/rootwrap.conf
 #network_api = neutron
 
 ## RabbitMQ RPC
-transport_url = rabbit://{% for host in designate_rabbitmq_servers.split(',') %}{{ designate_rabbitmq_userid }}:{{ designate_rabbitmq_password }}@{{ host }}:{{ designate_rabbitmq_port }}{% if not loop.last %},{% else %}/{{ designate_rabbitmq_vhost }}{% endif %}{% endfor %}
+transport_url = {{ designate_oslomsg_rpc_transport }}://{% for host in designate_oslomsg_rpc_servers.split(',') %}{{ designate_oslomsg_rpc_userid }}:{{ designate_oslomsg_rpc_password }}@{{ host }}:{{ designate_oslomsg_rpc_port }}{% if not loop.last %},{% else %}/{{ designate_oslomsg_rpc_vhost }}{% if designate_oslomsg_rpc_use_ssl | bool %}?ssl=1{% else %}?ssl=0{% endif %}{% endif %}{% endfor %}
 
 # RabbitMQ Config
 [oslo_messaging_rabbit]
-ssl = {{ designate_rabbitmq_use_ssl }}
+ssl = {{ designate_oslomsg_rpc_use_ssl }}
 rabbit_notification_exchange = designate
 rabbit_notification_topic = notifications
+
+[oslo_messaging_notifications]
+transport_url = {{ designate_oslomsg_notify_transport }}://{% for host in designate_oslomsg_notify_servers.split(',') %}{{ designate_oslomsg_notify_userid }}:{{ designate_oslomsg_notify_password }}@{{ host }}:{{ designate_oslomsg_notify_port }}{% if not loop.last %},{% else %}/{{ designate_oslomsg_notify_vhost }}{% if designate_oslomsg_notify_use_ssl | bool %}?ssl=1{% else %}?ssl=0{% endif %}{% endif %}{% endfor %}
 
 ########################
 ## Service Configuration

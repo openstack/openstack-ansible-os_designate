@@ -39,7 +39,8 @@ This role needs the following variables defined:
     designate_galera_address
     designate_galera_password
     designate_service_password
-    designate_rabbitmq_password
+    designate_oslomsg_rpc_password
+    designate_oslomsg_notify_password
 
 Example playbook
 ~~~~~~~~~~~~~~~~
