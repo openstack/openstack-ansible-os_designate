@@ -159,6 +159,7 @@ designate_requires_pip_packages:
 designate_pip_packages:
   - cryptography
   - designate
+  - osprofiler
   - python-designateclient
   - PyMySQL
   - python-memcached
