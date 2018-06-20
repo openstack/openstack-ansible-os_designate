@@ -1,3 +1,4 @@
+---
 - name: Install Designate Server
   hosts: designate_all
   user: root
