@@ -13,6 +13,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- name: Create DB for service
+  mysql_db:
+    login_user: "{{ galera_root_user }}"
+    login_password: "{{ galera_root_password }}"
+    login_host: "{{ designate_galera_address }}"
+    name: "{{ designate_galera_database }}"
+    state: "present"
+  delegate_to: "{{ designate_db_setup_host }}"
+  no_log: True
+
+- name: Grant access to the DB for the service
+  mysql_user:
+    login_user: "{{ galera_root_user }}"
+    login_password: "{{ galera_root_password }}"
+    login_host: "{{ designate_galera_address }}"
+    name: "{{ designate_galera_user }}"
+    password: "{{ designate_galera_password }}"
+    host: "{{ item }}"
+    state: "present"
+    priv: "{{ designate_galera_database }}.*:ALL"
+  delegate_to: "{{ designate_db_setup_host }}"
+  with_items:
+    - "localhost"
+    - "%"
+  no_log: True
+
 - name: Perform a Designate DB sync
   command: "{{ designate_bin }}/designate-manage database sync"
   become: yes

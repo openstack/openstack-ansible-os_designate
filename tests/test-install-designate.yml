@@ -25,17 +25,17 @@
       notify_vhost: "{{ designate_oslomsg_notify_vhost }}"
       notify_user: "{{ designate_oslomsg_notify_userid }}"
       notify_password: "{{ designate_oslomsg_notify_password }}"
-    - include: common/create-grant-db.yml
-      db_name: "{{ designate_galera_user }}"
-      db_password: "{{ designate_galera_password }}"
+
     - name: Install bind9
       package:
         name: "{{ bind_package_name }}"
         state: present
+
     - name: Drop bind configuration
       template:
         src: "named.conf.j2"
         dest: "{{ named_config_file }}"
+
     - name: fix perms for named directory (centos)
       file:
         mode: '0770'
@@ -45,6 +45,7 @@
         group: 'named'
       when:
         - ansible_pkg_mgr in ['yum', 'dnf']
+
     - name: Restart bind9
       service:
         name: "{{ bind_service_name }}"

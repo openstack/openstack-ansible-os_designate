@@ -61,7 +61,8 @@ designate_system_comment: designate system user
 designate_system_user_home: "/var/lib/{{ designate_system_user_name }}"
 
 ## Database info
-designate_galera_address: 127.0.0.1
+designate_db_setup_host: "{{ ('galera_all' in groups) | ternary(groups['galera_all'][0], 'localhost') }}"
+designate_galera_address: "{{ galera_address | default('127.0.0.1') }}"
 designate_galera_user: designate
 designate_galera_database: designate
 designate_galera_use_ssl: "{{ galera_use_ssl | default(False) }}"
