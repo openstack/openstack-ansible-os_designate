@@ -15,7 +15,7 @@
 
 - name: Playbook for deploying designate
   hosts: designate_all
-  user: root
+  remote_user: root
   gather_facts: true
   pre_tasks:
     - include: common/ensure-oslomsg.yml

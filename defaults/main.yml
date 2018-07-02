@@ -16,6 +16,11 @@
 ## Verbosity Options
 debug: False
 
+# Set the host which will execute the shade modules
+# for the service setup. The host must already have
+# clouds.yaml properly configured.
+designate_service_setup_host: "{{ openstack_service_setup_host | default('localhost') }}"
+
 # Set the package install state for distribution packages
 # Options are 'present' and 'latest'
 designate_package_state: "latest"
@@ -161,12 +166,6 @@ designate_service_internaluri: "{{ designate_service_internaluri_proto }}://{{ i
 designate_service_adminuri: "{{ (designate_service_adminurl | default('http://localhost')) | netorigin }}"
 
 designate_service_in_ldap: False
-
-# designate packages that must be installed before anything else
-designate_requires_pip_packages:
-  - virtualenv
-  - python-keystoneclient # Keystoneclient needed by OSA keystone lib
-  - httplib2
 
 # Common pip packages
 designate_pip_packages:
