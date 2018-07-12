@@ -41,7 +41,7 @@
   file:
     path: "{{ designate_bin | dirname }}"
     state: absent
-  when: designate_get_venv | changed
+  when: designate_get_venv is changed
 
 - name: Create designate venv dir
   file:
@@ -49,14 +49,14 @@
     state: directory
     mode: "0755"
   register: designate_venv_dir
-  when: designate_get_venv | changed
+  when: designate_get_venv is changed
 
 - name: Unarchive pre-built venv
   unarchive:
     src: "/var/cache/{{ designate_venv_download_url | basename }}"
     dest: "{{ designate_bin | dirname }}"
     copy: "no"
-  when: designate_get_venv | changed
+  when: designate_get_venv is changed
   notify:
     - Restart designate services
 
@@ -71,7 +71,7 @@
       {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''),'') }}
       {{ pip_install_options | default('') }}
   register: install_packages
-  until: install_packages|success
+  until: install_packages is success
   retries: 5
   delay: 2
   when: designate_get_venv | failed or designate_get_venv | skipped
@@ -85,7 +85,7 @@
   when:
     - ansible_pkg_mgr in ['yum', 'dnf', 'zypper']
     - not designate_developer_mode | bool
-    - designate_get_venv | changed
+    - designate_get_venv is changed
 
 # NOTE(odyssey4me):
 # We reinitialize the venv to ensure that the right
@@ -103,7 +103,7 @@
         --no-pip \
         --no-setuptools \
         --no-wheel
-  when: designate_get_venv | changed
+  when: designate_get_venv is changed
   tags:
     - skip_ansible_lint
 
