@@ -59,6 +59,25 @@
 - name: Flush handlers
   meta: flush_handlers
 
+- include_tasks: mq_setup.yml
+  when:
+    - "designate_services['designate-api']['group'] in group_names"
+    - "inventory_hostname == ((groups[designate_services['designate-api']['group']]| intersect(ansible_play_hosts)) | list)[0]"
+  with_items:
+    - oslomsg_setup_host: "{{ designate_oslomsg_rpc_setup_host }}"
+      oslomsg_userid: "{{ designate_oslomsg_rpc_userid }}"
+      oslomsg_password: "{{ designate_oslomsg_rpc_password }}"
+      oslomsg_vhost: "{{ designate_oslomsg_rpc_vhost }}"
+      oslomsg_transport: "{{ designate_oslomsg_rpc_transport }}"
+    - oslomsg_setup_host: "{{ designate_oslomsg_notify_setup_host }}"
+      oslomsg_userid: "{{ designate_oslomsg_notify_userid }}"
+      oslomsg_password: "{{ designate_oslomsg_notify_password }}"
+      oslomsg_vhost: "{{ designate_oslomsg_notify_vhost }}"
+      oslomsg_transport: "{{ designate_oslomsg_notify_transport }}"
+  no_log: true
+  tags:
+    - designate-config
+
 - include: designate_db_setup.yml
   when: inventory_hostname == groups['designate_all'][0]
   tags:
