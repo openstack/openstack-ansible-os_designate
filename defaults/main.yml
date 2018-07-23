@@ -94,7 +94,9 @@ designate_oslomsg_notify_use_ssl: "{{ oslomsg_notify_use_ssl | default(False) }}
 designate_oslomsg_notify_userid: designate-notify
 designate_oslomsg_notify_vhost: /designate
 
-## RabbitMQ info
+## (Qdrouterd) info
+# TODO(ansmith): Change structure when more backends will be supported
+designate_oslomsg_amqp1_enabled: "{{ designate_oslomsg_rpc_transport == 'amqp' }}"
 
 ## Pool Configuration Defaults
 designate_pool_uuid: 794ccc2c-d751-44fe-b57f-8894c9f5c842
@@ -180,6 +182,9 @@ designate_pip_packages:
   - PyMySQL
   - python-memcached
   - warlock
+
+designate_optional_oslomsg_amqp1_pip_packages:
+  - oslo.messaging[amqp1]
 
 designate_central_init_overrides: {}
 designate_worker_init_overrides: {}
