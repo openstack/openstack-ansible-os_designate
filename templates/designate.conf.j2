@@ -396,7 +396,7 @@ endpoint_type = internalURL
 # SQLAlchemy Storage
 #-----------------------
 [storage:sqlalchemy]
-connection = mysql+pymysql://{{ designate_galera_user }}:{{ designate_galera_password }}@{{ designate_galera_address }}/designate?charset=utf8
+connection = mysql+pymysql://{{ designate_galera_user }}:{{ designate_galera_password }}@{{ designate_galera_address }}/{{ designate_galera_database }}?charset=utf8
 #connection_debug = 0
 #connection_trace = False
 #sqlite_synchronous = True
