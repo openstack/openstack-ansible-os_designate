@@ -14,22 +14,10 @@
 # limitations under the License.
 
 
-designate_venv_tag: "testing"
 designate_developer_mode: true
 designate_service_password: "secrete"
 designate_galera_password: "SuperSecrete"
 designate_oslomsg_rpc_password: "secrete"
-designate_oslomsg_rpc_userid: designate-rpc
-designate_oslomsg_rpc_vhost: /designate
-designate_oslomsg_rpc_servers: "{{ oslomsg_rpc_servers }}"
-designate_oslomsg_rpc_use_ssl: "{{ oslomsg_rpc_use_ssl }}"
-designate_oslomsg_rpc_port: "{{ oslomsg_rpc_port }}"
-designate_oslomsg_notify_password: "secrete"
-designate_oslomsg_notify_userid: designate-notify
-designate_oslomsg_notify_vhost: /designate
-designate_oslomsg_notify_servers: "{{ oslomsg_notify_servers }}"
-designate_oslomsg_notify_use_ssl: "{{ oslomsg_notify_use_ssl }}"
-designate_oslomsg_notify_port: "{{ oslomsg_notify_port }}"
 designate_pools_yaml:
   - name: "default"
     description: Default BIND9 Pool

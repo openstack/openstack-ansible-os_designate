@@ -17,15 +17,14 @@
   hosts: designate_all
   remote_user: root
   gather_facts: true
+  vars:
+    named_config_file: "{{ (ansible_pkg_mgr == 'apt') | ternary('/etc/bind/named.conf.options','/etc/named.conf') }}"
+    bind_package_name: "{{ (ansible_pkg_mgr == 'apt') | ternary('bind9','bind') }}"
+    bind_service_name: "{{ (ansible_pkg_mgr == 'apt') | ternary('bind9','named') }}"
+    bind_service_state: "{{ (ansible_pkg_mgr == 'apt') | ternary('restarted','started') }}"
+  vars_files:
+    - common/test-vars.yml
   pre_tasks:
-    - include: common/ensure-oslomsg.yml
-      rpc_vhost: "{{ designate_oslomsg_rpc_vhost }}"
-      rpc_user: "{{ designate_oslomsg_rpc_userid }}"
-      rpc_password: "{{ designate_oslomsg_rpc_password }}"
-      notify_vhost: "{{ designate_oslomsg_notify_vhost }}"
-      notify_user: "{{ designate_oslomsg_notify_userid }}"
-      notify_password: "{{ designate_oslomsg_notify_password }}"
-
     - name: Install bind9
       package:
         name: "{{ bind_package_name }}"
@@ -50,11 +49,6 @@
       service:
         name: "{{ bind_service_name }}"
         state: "{{ bind_service_state }}"
-  vars:
-    named_config_file: "{{ (ansible_pkg_mgr == 'apt') | ternary('/etc/bind/named.conf.options','/etc/named.conf') }}"
-    bind_package_name: "{{ (ansible_pkg_mgr == 'apt') | ternary('bind9','bind') }}"
-    bind_service_name: "{{ (ansible_pkg_mgr == 'apt') | ternary('bind9','named') }}"
-    bind_service_state: "{{ (ansible_pkg_mgr == 'apt') | ternary('restarted','started') }}"
   roles:
     - role: "os_designate"
   post_tasks:
@@ -62,5 +56,3 @@
       service:
         name: "{{ bind_service_name }}"
         state: restarted
-  vars_files:
-    - common/test-vars.yml

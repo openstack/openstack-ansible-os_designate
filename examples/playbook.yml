@@ -11,4 +11,3 @@
     designate_galera_password: "SuperSecretePassword1"
     designate_service_password: "SuperSecretePassword3"
     designate_oslomsg_rpc_password: "SuperSecretePassword4"
-    designate_oslomsg_notify_password: "SuperSecretePassword5"
