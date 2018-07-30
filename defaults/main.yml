@@ -91,8 +91,9 @@ designate_oslomsg_notify_transport: "{{ oslomsg_notify_transport | default('rabb
 designate_oslomsg_notify_servers: "{{ oslomsg_notify_servers | default('127.0.0.1') }}"
 designate_oslomsg_notify_port: "{{ oslomsg_notify_port | default('5672') }}"
 designate_oslomsg_notify_use_ssl: "{{ oslomsg_notify_use_ssl | default(False) }}"
-designate_oslomsg_notify_userid: designate-notify
-designate_oslomsg_notify_vhost: /designate
+designate_oslomsg_notify_userid: "{{ designate_oslomsg_rpc_userid }}"
+designate_oslomsg_notify_password: "{{ designate_oslomsg_rpc_password }}"
+designate_oslomsg_notify_vhost: "{{ designate_oslomsg_rpc_vhost }}"
 
 ## RabbitMQ info
 
