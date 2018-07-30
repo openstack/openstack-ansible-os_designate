@@ -13,6 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- name: Install designate distro packages
+  package:
+    name: "{{ designate_developer_mode_distro_packages }}"
+    state: "{{ designate_package_state }}"
+    update_cache: "{{ (ansible_pkg_mgr in ['apt', 'zypper']) | ternary('yes', omit) }}"
+    cache_valid_time: "{{ (ansible_pkg_mgr == 'apt') | ternary(cache_timeout, omit) }}"
+  when: designate_developer_mode | bool
+  register: install_packages
+  until: install_packages|success
+  retries: 5
+  delay: 2
+
 - name: Create developer mode constraint file
   copy:
     dest: "/opt/developer-pip-constraints.txt"

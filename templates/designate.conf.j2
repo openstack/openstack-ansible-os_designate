@@ -1,4 +1,5 @@
 [DEFAULT]
+use_journal = True
 # Disable stderr logging
 use_stderr = False
 
@@ -10,12 +11,6 @@ debug = {{ debug }}
 
 # Top-level directory for maintaining designate's state
 #state_path = /var/lib/designate
-
-# Log Configuration
-#log_config = None
-
-# Log directory
-#logdir = /var/log/designate
 
 {% if designate_ceilometer_enabled | bool %}
 # Driver used for issuing notifications

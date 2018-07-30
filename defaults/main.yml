@@ -180,6 +180,7 @@ designate_pip_packages:
   - python-designateclient
   - PyMySQL
   - python-memcached
+  - systemd-python
   - warlock
 
 designate_central_init_overrides: {}
@@ -196,26 +197,43 @@ designate_services:
     group: designate_central
     service_name: designate-central
     init_config_overrides: "{{ designate_central_init_overrides }}"
+    execstarts: "{{ designate_bin }}/designate-central"
+    start_order: 3
   designate-worker:
     group: designate_worker
     service_name: designate-worker
     init_config_overrides: "{{ designate_worker_init_overrides }}"
+    execstarts: "{{ designate_bin }}/designate-worker"
+    start_order: 2
   designate-producer:
     group: designate_producer
     service_name: designate-producer
     init_config_overrides: "{{ designate_producer_init_overrides }}"
+    execstarts: "{{ designate_bin }}/designate-producer"
+    start_order: 5
   designate-mdns:
     group: designate_mdns
     service_name: designate-mdns
     init_config_overrides: "{{ designate_mdns_init_overrides }}"
+    execstarts: "{{ designate_bin }}/designate-mdns"
+    start_order: 4
   designate-sink:
     group: designate_sink
     service_name: designate-sink
     init_config_overrides: "{{ designate_sink_init_overrides }}"
+    execstarts: "{{ designate_bin }}/designate-sink"
+    start_order: 6
   designate-api:
     group: designate_api
     service_name: designate-api
     init_config_overrides: "{{ designate_api_init_overrides }}"
+    execstarts: "{{ designate_bin }}/designate-api"
+    start_order: 1
+
+# List of unit files this role will "mask". These units, when found, are knonw
+# to conflict with running services for this given role. Any unit listed will be
+# stopped and masked.
+designate_mask_conflicting_units: "{{ _designate_mask_conflicting_units | default([]) }}"
 
 # This variable is used by the repo_build process to determine
 # which host group to check for members of before building the

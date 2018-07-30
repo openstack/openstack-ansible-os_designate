@@ -68,3 +68,12 @@
   with_fileglob:
     - rootwrap.d/*
   notify: Restart designate services
+
+- name: Mask any conflicting units
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: false
+    masked: true
+  failed_when: false
+  with_items: "{{ designate_mask_conflicting_units }}"

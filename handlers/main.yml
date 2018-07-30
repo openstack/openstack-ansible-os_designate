@@ -15,13 +15,10 @@
 # limitations under the License.
 
 - name: Stop services
-  service:
-    name: "{{ item.value.service_name }}"
-    enabled: yes
+  systemd:
+    name: "{{ item.service_name }}"
     state: "stopped"
-    daemon_reload: "{{ (ansible_service_mgr == 'systemd') | ternary('yes', omit) }}"
-  with_dict: "{{ designate_services }}"
-  when: "item.value.group in group_names"
+  with_items: "{{ filtered_designate_services }}"
   register: _stop
   until: _stop is success
   retries: 5
@@ -47,13 +44,10 @@
   listen: Restart designate services
 
 - name: Start services
-  service:
-    name: "{{ item.value.service_name }}"
-    enabled: yes
+  systemd:
+    name: "{{ item.service_name }}"
     state: "started"
-    daemon_reload: "{{ (ansible_service_mgr == 'systemd') | ternary('yes', omit) }}"
-  with_dict: "{{ designate_services }}"
-  when: "item.value.group in group_names"
+  with_items: "{{ filtered_designate_services }}"
   register: _start
   until: _start is success
   retries: 5

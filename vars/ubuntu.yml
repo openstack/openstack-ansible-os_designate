@@ -29,6 +29,18 @@ designate_service_distro_packages:
   - designate-sink
   - designate-worker
   - designate-zone-manager
+  - python-systemd
+  - python3-systemd
 
 designate_rndc_packages:
   - bind9utils
+
+designate_developer_mode_distro_packages:
+  - build-essential
+  - libsystemd-dev
+  - pkg-config
+
+_designate_mask_conflicting_units:
+  - designate-agent.service
+  - designate-zone-manager.service
+  - designate-pool-manager.service
