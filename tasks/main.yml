@@ -56,9 +56,6 @@
   tags:
     - designate-install
 
-- name: Flush handlers
-  meta: flush_handlers
-
 - include_tasks: mq_setup.yml
   when:
     - "designate_services['designate-api']['group'] in group_names"
@@ -77,6 +74,9 @@
   no_log: true
   tags:
     - designate-config
+
+- name: Flush handlers
+  meta: flush_handlers
 
 - include: designate_db_setup.yml
   when: inventory_hostname == groups['designate_all'][0]
