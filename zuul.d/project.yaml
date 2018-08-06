@@ -20,6 +20,9 @@
       jobs:
         - openstack-ansible-designate-ssl-nv
         - openstack-ansible-functional-distro_install-ubuntu-xenial
+        # TODO(jrosser) Revert this once bionic passes
+        - openstack-ansible-functional-ubuntu-bionic:
+            voting: false
           # NOTE(hwoarang) Centos7 is having some troubles with repo dependencies
           # so disabling until it's investigated.
         - openstack-ansible-functional-distro_install-centos-7:
@@ -28,4 +31,7 @@
     gate:
       jobs:
         - openstack-ansible-functional-distro_install-ubuntu-xenial
+        # TODO(jrosser) Revert this once bionic passes
+        - openstack-ansible-functional-ubuntu-bionic:
+            voting: false
         - openstack-ansible-functional-distro_install-opensuse-423
