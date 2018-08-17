@@ -39,15 +39,15 @@
   tags:
     - always
 
-- include: designate_pre_install.yml
+- include_tasks: designate_pre_install.yml
   tags:
     - designate-install
 
-- include: designate_install.yml
+- include_tasks: designate_install.yml
   tags:
     - designate-install
 
-- include: designate_post_install.yml
+- include_tasks: designate_post_install.yml
   tags:
     - designate-install
     - designate-config
@@ -103,12 +103,12 @@
 - name: Flush handlers
   meta: flush_handlers
 
-- include: designate_db_setup.yml
+- include_tasks: designate_db_setup.yml
   when: inventory_hostname == groups['designate_all'][0]
   tags:
     - designate-install
 
-- include: designate_service_setup.yml
+- include_tasks: designate_service_setup.yml
   when: inventory_hostname == groups['designate_all'][0]
   tags:
     - designate-install

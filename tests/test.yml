@@ -14,19 +14,19 @@
 # limitations under the License.
 
 # Setup the host
-- include: common/test-setup-host.yml
+- import_playbook: common/test-setup-host.yml
 
 # Prepare the containers
-- include: common/test-prepare-containers.yml
+- import_playbook: common/test-prepare-containers.yml
 
 # Install RabbitMQ/MariaDB
-- include: common/test-install-infra.yml
+- import_playbook: common/test-install-infra.yml
 
 # Install Keystone
-- include: common/test-install-keystone.yml
+- import_playbook: common/test-install-keystone.yml
 
 # Install Designate
-- include: test-install-designate.yml
+- import_playbook: test-install-designate.yml
 
 # Install and execute Tempest
-- include: common/test-install-tempest.yml
+- import_playbook: common/test-install-tempest.yml
