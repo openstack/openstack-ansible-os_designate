@@ -95,7 +95,9 @@ designate_oslomsg_notify_userid: "{{ designate_oslomsg_rpc_userid }}"
 designate_oslomsg_notify_password: "{{ designate_oslomsg_rpc_password }}"
 designate_oslomsg_notify_vhost: "{{ designate_oslomsg_rpc_vhost }}"
 
-## RabbitMQ info
+## (Qdrouterd) info
+# TODO(ansmith): Change structure when more backends will be supported
+designate_oslomsg_amqp1_enabled: "{{ designate_oslomsg_rpc_transport == 'amqp' }}"
 
 ## Pool Configuration Defaults
 designate_pool_uuid: 794ccc2c-d751-44fe-b57f-8894c9f5c842
@@ -182,6 +184,9 @@ designate_pip_packages:
   - python-memcached
   - systemd-python
   - warlock
+
+designate_optional_oslomsg_amqp1_pip_packages:
+  - oslo.messaging[amqp1]
 
 designate_central_init_overrides: {}
 designate_worker_init_overrides: {}
