@@ -16,6 +16,9 @@
 ## Verbosity Options
 debug: False
 
+# Enable/Disable Ceilometer
+designate_ceilometer_enabled: False
+
 # Set the host which will execute the shade modules
 # for the service setup. The host must already have
 # clouds.yaml properly configured.

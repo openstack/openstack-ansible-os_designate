@@ -33,6 +33,7 @@ rabbit_notification_exchange = designate
 rabbit_notification_topic = notifications
 
 [oslo_messaging_notifications]
+driver = {% if designate_ceilometer_enabled %}messagingv2{% else %}noop{% endif %}
 transport_url = {{ designate_oslomsg_notify_transport }}://{% for host in designate_oslomsg_notify_servers.split(',') %}{{ designate_oslomsg_notify_userid }}:{{ designate_oslomsg_notify_password }}@{{ host }}:{{ designate_oslomsg_notify_port }}{% if not loop.last %},{% else %}/{{ designate_oslomsg_notify_vhost }}{% if designate_oslomsg_notify_use_ssl | bool %}?ssl=1{% else %}?ssl=0{% endif %}{% endif %}{% endfor %}
 
 ########################
