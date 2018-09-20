@@ -49,13 +49,3 @@ designate_pools_yaml:
           port: 53
           rndc_host: 127.0.0.1
           rndc_port: 953
-
-tempest_run: yes
-
-tempest_plugins:
-  - name: designate-tempest-plugin
-    repo: https://git.openstack.org/openstack/designate-tempest-plugin
-    branch: 0.2.0
-
-tempest_test_whitelist:
-  - designate_tempest_plugin.tests.scenario.v2.test_zones
