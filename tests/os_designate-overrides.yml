@@ -55,7 +55,7 @@ tempest_run: yes
 tempest_plugins:
   - name: designate-tempest-plugin
     repo: https://git.openstack.org/openstack/designate-tempest-plugin
-    branch: master
+    branch: '0.3.0'
 
 tempest_test_whitelist:
   - designate_tempest_plugin.tests.scenario.v2.test_zones
