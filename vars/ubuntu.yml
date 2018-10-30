@@ -36,9 +36,7 @@ designate_rndc_packages:
   - bind9utils
 
 designate_devel_distro_packages:
-  - build-essential
   - libsystemd-dev
-  - pkg-config
 
 _designate_mask_conflicting_units:
   - designate-agent.service
