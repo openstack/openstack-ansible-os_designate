@@ -162,6 +162,9 @@ designate_role_name: admin
 #     algorithm: "hmac-md5"
 #     secret: "<key>"
 
+# Owner of all managed resources - like auto-created records etc.
+designate_managed_resource_project_name: "{{ designate_service_project_name }}"
+
 ## Service Type and Data
 designate_service_region: RegionOne
 designate_service_endpoint_type: internalURL
