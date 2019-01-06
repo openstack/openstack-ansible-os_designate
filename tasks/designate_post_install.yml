@@ -13,6 +13,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- name: Get project id for managed resources
+  delegate_to: "{{ designate_service_setup_host }}"
+  vars:
+    ansible_python_interpreter: >-
+      {{ (designate_service_setup_host == 'localhost') | ternary(ansible_playbook_python, ansible_python['executable']) }}
+  os_project_facts:
+    cloud: default
+    name: "{{ designate_managed_resource_project_name }}"
+    interface: internal
+    validate_certs: "{{ not (keystone_service_internaluri_insecure | bool) }}"
+  register: _get_managed_resource_project
+  until: _get_managed_resource_project is success
+  retries: 5
+  delay: 15
+
+- name: Store project id for managed resources
+  set_fact:
+    designate_managed_resource_tenant_id: "{{ ansible_facts.openstack_projects[0].id }}"
+
 - name: Copy designate config
   config_template:
     src: "{{ item.src }}"

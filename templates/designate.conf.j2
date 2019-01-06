@@ -66,8 +66,7 @@ transport_url = {{ designate_oslomsg_notify_transport }}://{% for host in design
 #managed_resource_email = hostmaster@example.com.
 
 # Tenant ID to own all managed resources - like auto-created records etc.
-# TODO(odyssey4me) - Check on whether this should be set to something
-#managed_resource_tenant_id = 123456
+managed_resource_tenant_id = {{ designate_managed_resource_tenant_id }}
 
 #-----------------------
 # API Service
