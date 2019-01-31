@@ -50,10 +50,6 @@
       dest: "/etc/designate/api-paste.ini"
       config_overrides: "{{ designate_api_paste_ini_overrides }}"
       config_type: "ini"
-    - src: "policy.json.j2"
-      dest: "/etc/designate/policy.json-{{ designate_venv_tag }}"
-      config_overrides: "{{ designate_policy_overrides }}"
-      config_type: "json"
     - src: "rootwrap.conf.j2"
       dest: "/etc/designate/rootwrap.conf"
       owner: "root"
@@ -61,6 +57,13 @@
       config_overrides: "{{ designate_rootwrap_conf_overrides }}"
       config_type: "ini"
   notify: Restart designate services
+
+- name: Implement policy.json if there are overrides configured
+  copy:
+    content: "{{ designate_policy_overrides | to_nice_json }}"
+    dest: "/etc/designate/policy.json-{{ designate_venv_tag }}"
+  when:
+    - designate_policy_overrides != {}
 
 - name: Create Designate pools.yaml file
   copy:

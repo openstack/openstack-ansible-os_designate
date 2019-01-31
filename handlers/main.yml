@@ -43,6 +43,18 @@
     group: "{{ designate_system_group_name }}"
     mode: "0640"
     remote_src: yes
+  when:
+    - designate_policy_overrides != {}
+  listen:
+    - "Restart designate services"
+    - "venv changed"
+
+- name: Remove legacy policy.json file
+  file:
+    path: "/etc/designate/policy.json"
+    state: absent
+  when:
+    - designate_policy_overrides == {}
   listen:
     - "Restart designate services"
     - "venv changed"
