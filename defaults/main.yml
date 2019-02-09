@@ -185,10 +185,11 @@ designate_service_project_name: service
 
 designate_service_publicuri_proto: "{{ openstack_service_publicuri_proto | default(designate_service_proto) }}"
 designate_service_internaluri_proto: "{{ openstack_service_internaluri_proto | default(designate_service_proto) }}"
+designate_service_adminuri_proto: "{{ openstack_service_adminuri_proto | default(designate_service_proto) }}"
 
 designate_service_publicuri: "{{ designate_service_publicuri_proto }}://{{ external_lb_vip_address }}:{{ designate_service_port }}"
 designate_service_internaluri: "{{ designate_service_internaluri_proto }}://{{ internal_lb_vip_address }}:{{ designate_service_port }}"
-designate_service_adminuri: "{{ (designate_service_adminurl | default('http://localhost')) | netorigin }}"
+designate_service_adminuri: "{{ designate_service_adminuri_proto }}://{{ internal_lb_vip_address }}:{{ designate_service_port }}"
 
 designate_service_in_ldap: False
 
