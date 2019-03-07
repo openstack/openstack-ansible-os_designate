@@ -117,9 +117,6 @@ designate_oslomsg_amqp1_enabled: "{{ designate_oslomsg_rpc_transport == 'amqp' }
 ## Pool Configuration Defaults
 designate_pool_uuid: 794ccc2c-d751-44fe-b57f-8894c9f5c842
 
-# Enable/Disable Ceilometer
-designate_ceilometer_enabled: False
-
 # Designate services info
 designate_role_name: admin
 
