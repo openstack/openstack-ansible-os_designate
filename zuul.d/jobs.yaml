@@ -59,3 +59,11 @@
     vars:
       action: deploy
       scenario: aio_distro_metal_designate
+
+- job:
+    name: openstack-ansible-deploy-aio_metal_designate-debian-stable
+    parent: openstack-ansible-deploy-aio
+    nodeset: debian-stable
+    vars:
+      action: deploy
+      scenario: aio_metal_designate
