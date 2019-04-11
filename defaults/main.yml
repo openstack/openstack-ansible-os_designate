@@ -39,7 +39,7 @@ designate_git_install_branch: master
 designate_upper_constraints_url: "{{ requirements_git_url | default('https://git.openstack.org/cgit/openstack/requirements/plain/upper-constraints.txt?h=' ~ requirements_git_install_branch | default('master')) }}"
 designate_git_constraints:
   - "git+{{ designate_git_repo }}@{{ designate_git_install_branch }}#egg=designate"
-  - "--constraint {{ barbican_upper_constraints_url }}"
+  - "--constraint {{ designate_upper_constraints_url }}"
 
 designate_pip_install_args: "{{ pip_install_options | default('') }}"
 
