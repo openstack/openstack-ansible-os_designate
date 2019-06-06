@@ -20,15 +20,7 @@ cache_timeout: 600
 designate_distro_packages: []
 
 designate_service_distro_packages:
-  - designate
-  - designate-agent
-  - designate-api
-  - designate-central
-  - designate-pool-manager
-  - designate-producer
-  - designate-sink
-  - designate-worker
-  - designate-zone-manager
+  - python3-designate
   - python-systemd
   - python3-systemd
 
@@ -37,8 +29,3 @@ designate_rndc_packages:
 
 designate_devel_distro_packages:
   - libsystemd-dev
-
-_designate_mask_conflicting_units:
-  - designate-agent.service
-  - designate-zone-manager.service
-  - designate-pool-manager.service
