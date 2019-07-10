@@ -232,11 +232,6 @@ designate_services:
     execstarts: "{{ designate_bin }}/designate-api"
     start_order: 1
 
-# List of unit files this role will "mask". These units, when found, are knonw
-# to conflict with running services for this given role. Any unit listed will be
-# stopped and masked.
-designate_mask_conflicting_units: "{{ _designate_mask_conflicting_units | default([]) }}"
-
 # This variable is used by the repo_build process to determine
 # which host group to check for members of before building the
 # pip packages required by this role. The value is picked up
