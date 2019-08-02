@@ -122,7 +122,32 @@
   tags:
     - designate-install
 
-- include_tasks: designate_service_setup.yml
+- include_tasks: service_setup.yml
+  vars:
+    _service_adminuri_insecure: "{{ keystone_service_adminuri_insecure }}"
+    _service_in_ldap: "{{ designate_service_in_ldap }}"
+    _service_setup_host: "{{ designate_service_setup_host }}"
+    _service_setup_host_python_interpreter: "{{ designate_service_setup_host_python_interpreter }}"
+    _service_project_name: "{{ designate_service_project_name }}"
+    _service_region: "{{ designate_service_region }}"
+    _service_users:
+      - name: "{{ designate_service_user_name }}"
+        password: "{{ designate_service_password }}"
+        role: "{{ designate_role_name }}"
+    _service_endpoints:
+      - service: "{{ designate_service_name }}"
+        interface: "public"
+        url: "{{ designate_service_publicuri }}"
+      - service: "{{ designate_service_name }}"
+        interface: "internal"
+        url: "{{ designate_service_internaluri }}"
+      - service: "{{ designate_service_name }}"
+        interface: "admin"
+        url: "{{ designate_service_adminuri }}"
+    _service_catalog:
+      - name: "{{ designate_service_name }}"
+        type: "{{ designate_service_type }}"
+        description: "{{ designate_service_description }}"
   when: inventory_hostname == groups['designate_all'][0]
   tags:
     - designate-install
