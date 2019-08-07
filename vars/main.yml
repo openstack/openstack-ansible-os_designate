@@ -24,7 +24,15 @@ filtered_designate_services: |-
   {%   if (value['group'] in group_names) and
           (('condition' not in value) or
            ('condition' in value and value['condition'])) %}
-  {%     set _ = value.update({'service_key': key}) %}
+  {%     set _ = value.update(
+           {
+             'service_key': key,
+             'enabled': 'yes',
+             'config_overrides': value.init_config_overrides
+           }
+         )
+  %}
+  {%     set _ = value.pop('init_config_overrides') -%}
   {%     set _ = services.append(value) %}
   {%   endif %}
   {% endfor %}
