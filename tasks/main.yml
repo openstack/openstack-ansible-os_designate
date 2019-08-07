@@ -74,21 +74,21 @@
     - common-mq
     - designate-config
 
-- include_tasks: designate_pre_install.yml
+- import_tasks: designate_pre_install.yml
   tags:
     - designate-install
 
-- include_tasks: designate_install.yml
+- import_tasks: designate_install.yml
   tags:
     - designate-install
 
-- include_tasks: designate_post_install.yml
+- import_tasks: designate_post_install.yml
   tags:
     - designate-install
     - designate-config
 
 - name: Run the systemd service role
-  include_role:
+  import_role:
     name: systemd_service
   vars:
     systemd_user_name: "{{ designate_system_user_name }}"
@@ -101,15 +101,7 @@
     systemd_BlockIOAccounting: true
     systemd_MemoryAccounting: true
     systemd_TasksAccounting: true
-    systemd_services:
-      - service_name: "{{ service_var.service_name }}"
-        enabled: yes
-        execstarts: "{{ service_var.execstarts }}"
-        execreloads: "{{ service_var.execreloads | default([]) }}"
-        config_overrides: "{{ service_var.init_config_overrides }}"
-  with_items: "{{ filtered_designate_services }}"
-  loop_control:
-    loop_var: service_var
+    systemd_services: "{{ filtered_designate_services }}"
   tags:
     - designate-config
     - systemd-service
@@ -117,12 +109,12 @@
 - name: Flush handlers
   meta: flush_handlers
 
-- include_tasks: designate_db_sync.yml
+- import_tasks: designate_db_sync.yml
   when: inventory_hostname == groups['designate_all'][0]
   tags:
     - designate-install
 
-- include_tasks: service_setup.yml
+- import_tasks: service_setup.yml
   vars:
     _service_adminuri_insecure: "{{ keystone_service_adminuri_insecure }}"
     _service_in_ldap: "{{ designate_service_in_ldap }}"
