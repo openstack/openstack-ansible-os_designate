@@ -21,14 +21,10 @@
     check:
       jobs:
         - openstack-ansible-functional-distro_install-ubuntu-xenial
-        # TODO(jrosser) Revert this once bionic passes
-        - openstack-ansible-functional-ubuntu-bionic:
-            voting: false
+        - openstack-ansible-functional-ubuntu-bionic
         - openstack-ansible-functional-distro_install-centos-7
     gate:
       jobs:
+        - openstack-ansible-functional-ubuntu-bionic
         - openstack-ansible-functional-distro_install-ubuntu-xenial
-        # TODO(jrosser) Revert this once bionic passes
-        - openstack-ansible-functional-ubuntu-bionic:
-            voting: false
         - openstack-ansible-functional-distro_install-centos-7
