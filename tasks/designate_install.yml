@@ -40,6 +40,7 @@
   include_role:
     name: "python_venv_build"
   vars:
+    venv_python_executable: "{{ designate_venv_python_executable }}"
     venv_build_constraints: "{{ designate_git_constraints }}"
     venv_build_distro_package_list: "{{ designate_devel_distro_packages }}"
     venv_install_destination_path: "{{ designate_bin | dirname }}"

@@ -32,6 +32,7 @@ designate_pip_package_state: "latest"
 
 # Set installation method.
 designate_install_method: "source"
+designate_venv_python_executable: "{{ openstack_venv_python_executable | default('python2') }}"
 
 ## The git source/branch
 designate_git_repo: https://git.openstack.org/openstack/designate
