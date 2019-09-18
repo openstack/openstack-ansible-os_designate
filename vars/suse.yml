@@ -25,7 +25,6 @@ designate_service_distro_packages:
   - openstack-designate-producer
   - openstack-designate-sink
   - openstack-designate-worker
-  - python-systemd
 
 designate_rndc_packages:
   - bind-utils
