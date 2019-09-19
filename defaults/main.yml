@@ -151,6 +151,7 @@ designate_managed_resource_project_name: "{{ designate_service_project_name }}"
 designate_service_region: RegionOne
 designate_service_endpoint_type: internalURL
 designate_service_name: designate
+designate_bind_address: "{{ openstack_service_bind_address | default('0.0.0.0') }}"
 designate_service_port: 9001
 designate_service_proto: http
 designate_service_type: dns
