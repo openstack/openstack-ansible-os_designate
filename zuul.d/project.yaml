@@ -34,5 +34,5 @@
         - openstack-ansible-deploy-aio_distro_metal_designate-ubuntu-bionic
     experimental:
       jobs:
-        - openstack-ansible-deploy-aio_metal_designate-opensuse-150
-        - openstack-ansible-deploy-aio_distro_metal_designate-opensuse-150
+        - openstack-ansible-deploy-aio_metal_designate-opensuse-15
+        - openstack-ansible-deploy-aio_distro_metal_designate-opensuse-15
