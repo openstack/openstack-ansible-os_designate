@@ -172,6 +172,9 @@ designate_service_adminuri: "{{ designate_service_adminuri_proto }}://{{ interna
 
 designate_service_in_ldap: False
 
+# memcache override
+designate_memcached_servers: "{{ memcached_servers }}"
+
 # Common pip packages
 designate_pip_packages:
   - cryptography
@@ -179,6 +182,7 @@ designate_pip_packages:
   - osprofiler
   - python-designateclient
   - PyMySQL
+  - pymemcache
   - python-memcached
   - systemd-python
   - warlock
