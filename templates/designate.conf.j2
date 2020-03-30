@@ -441,6 +441,12 @@ connection = mysql+pymysql://{{ designate_galera_user }}:{{ designate_galera_pas
 # of the state_path setting.
 #lock_path = $state_path
 
+#################################
+## Oslo Middleware Configuration
+#################################
+[oslo_middleware]
+enable_proxy_headers_parsing = true
+
 ########################
 ## Coordination
 ########################
