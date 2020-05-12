@@ -238,12 +238,6 @@ designate_services:
     execstarts: "{{ designate_bin }}/designate-api"
     start_order: 1
 
-# This variable is used by the repo_build process to determine
-# which host group to check for members of before building the
-# pip packages required by this role. The value is picked up
-# by the py_pkgs lookup.
-designate_role_project_group: designate_all
-
 ## Tunable overrides
 designate_policy_overrides: {}
 designate_designate_conf_overrides: {}
