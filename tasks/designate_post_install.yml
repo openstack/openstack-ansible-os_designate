@@ -18,7 +18,7 @@
   vars:
     ansible_python_interpreter: >-
       {{ (designate_service_setup_host == 'localhost') | ternary(ansible_playbook_python, ansible_python['executable']) }}
-  os_project_facts:
+  os_project_info:
     cloud: default
     name: "{{ designate_managed_resource_project_name }}"
     interface: internal
@@ -30,7 +30,7 @@
 
 - name: Store project id for managed resources
   set_fact:
-    designate_managed_resource_tenant_id: "{{ ansible_facts.openstack_projects[0].id }}"
+    designate_managed_resource_tenant_id: "{{ _get_managed_resource_project.openstack_projects[0].id }}"
 
 - name: Copy designate config
   config_template:
