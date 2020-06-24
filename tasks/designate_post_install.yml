@@ -18,7 +18,7 @@
   vars:
     ansible_python_interpreter: >-
       {{ (designate_service_setup_host == 'localhost') | ternary(ansible_playbook_python, ansible_python['executable']) }}
-  os_project_info:
+  openstack.cloud.os_project_info:
     cloud: default
     name: "{{ designate_managed_resource_project_name }}"
     interface: internal
