@@ -21,7 +21,6 @@ designate_distro_packages: []
 
 designate_service_distro_packages:
   - python3-designate
-  - python-systemd
   - python3-systemd
 
 designate_rndc_packages:
