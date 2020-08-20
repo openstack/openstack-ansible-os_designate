@@ -45,6 +45,9 @@
     - "inventory_hostname == ((groups[designate_services['designate-api']['group']]| intersect(ansible_play_hosts)) | list)[0]"
   vars:
     _oslodb_setup_host: "{{ designate_db_setup_host }}"
+    _oslodb_ansible_python_interpreter: "{{ designate_db_setup_python_interpreter }}"
+    _oslodb_setup_endpoint: "{{ designate_galera_address }}"
+    _oslodb_setup_port: "{{ designate_galera_port }}"
     _oslodb_databases:
       - name: "{{ designate_galera_database }}"
         users:

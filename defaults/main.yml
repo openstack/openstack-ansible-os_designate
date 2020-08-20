@@ -62,12 +62,14 @@ designate_system_comment: designate system user
 designate_system_user_home: "/var/lib/{{ designate_system_user_name }}"
 
 ## Database info
-designate_db_setup_host: "{{ ('galera_all' in groups) | ternary(groups['galera_all'][0], 'localhost') }}"
+designate_db_setup_host: "{{ openstack_db_setup_host | default('localhost') }}"
+designate_db_setup_python_interpreter: "{{ openstack_db_setup_python_interpreter | default((designate_db_setup_host == 'localhost') | ternary(ansible_playbook_python, ansible_python['executable'])) }}"
 designate_galera_address: "{{ galera_address | default('127.0.0.1') }}"
 designate_galera_user: designate
 designate_galera_database: designate
 designate_galera_use_ssl: "{{ galera_use_ssl | default(False) }}"
 designate_galera_ssl_ca_cert: "{{ galera_ssl_ca_cert | default('/etc/ssl/certs/galera-ca.pem') }}"
+designate_galera_port: 3306
 
 ## Oslo Messaging
 # RPC
