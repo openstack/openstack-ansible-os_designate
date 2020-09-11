@@ -41,8 +41,7 @@
 
 - import_tasks: db_setup.yml
   when:
-    - "designate_services['designate-api']['group'] in group_names"
-    - "inventory_hostname == ((groups[designate_services['designate-api']['group']]| intersect(ansible_play_hosts)) | list)[0]"
+    - "_designate_is_first_play_host"
   vars:
     _oslodb_setup_host: "{{ designate_db_setup_host }}"
     _oslodb_databases:
@@ -56,8 +55,7 @@
 
 - import_tasks: mq_setup.yml
   when:
-    - "designate_services['designate-api']['group'] in group_names"
-    - "inventory_hostname == ((groups[designate_services['designate-api']['group']]| intersect(ansible_play_hosts)) | list)[0]"
+    - "_designate_is_first_play_host"
   vars:
     _oslomsg_rpc_setup_host: "{{ designate_oslomsg_rpc_setup_host }}"
     _oslomsg_rpc_userid: "{{ designate_oslomsg_rpc_userid }}"
@@ -110,7 +108,7 @@
   meta: flush_handlers
 
 - import_tasks: designate_db_sync.yml
-  when: inventory_hostname == groups['designate_all'][0]
+  when: _designate_is_first_play_host
   tags:
     - designate-install
 
@@ -140,7 +138,7 @@
       - name: "{{ designate_service_name }}"
         type: "{{ designate_service_type }}"
         description: "{{ designate_service_description }}"
-  when: inventory_hostname == groups['designate_all'][0]
+  when: _designate_is_first_play_host
   tags:
     - designate-install
 
