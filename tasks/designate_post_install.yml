@@ -17,7 +17,7 @@
   delegate_to: "{{ designate_service_setup_host }}"
   vars:
     ansible_python_interpreter:  "{{ designate_service_setup_host_python_interpreter }}"
-  openstack.cloud.os_project_info:
+  openstack.cloud.project_info:
     cloud: default
     name: "{{ designate_managed_resource_project_name }}"
     interface: internal
