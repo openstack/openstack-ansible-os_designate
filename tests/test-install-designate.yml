@@ -43,7 +43,7 @@
         owner: 'root'
         group: 'named'
       when:
-        - ansible_pkg_mgr in ['yum', 'dnf']
+        - ansible_pkg_mgr == 'dnf'
 
     - name: Restart bind9
       service:
