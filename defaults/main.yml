@@ -31,7 +31,7 @@ designate_package_state: "{{ package_state | default('latest') }}"
 
 # Set installation method.
 designate_install_method: "{{ service_install_method | default('source') }}"
-designate_venv_python_executable: "{{ openstack_venv_python_executable | default('python2') }}"
+designate_venv_python_executable: "{{ openstack_venv_python_executable | default('python3') }}"
 
 ## The git source/branch
 designate_git_repo: https://opendev.org/openstack/designate
