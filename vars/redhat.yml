@@ -25,7 +25,7 @@ designate_service_distro_packages:
   - openstack-designate-producer
   - openstack-designate-sink
   - openstack-designate-worker
-  - "{{ ansible_distribution_major_version is version('8', '<') | ternary('systemd-python', 'python3-systemd') }}"
+  - python3-systemd
 
 designate_rndc_packages:
   - bind

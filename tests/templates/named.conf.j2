@@ -4,15 +4,8 @@
 options {
         {% if ansible_pkg_mgr == 'apt' %}
         directory "/var/cache/bind";
-        {% elif ansible_pkg_mgr in ['yum', 'dnf'] %}
+        {% elif ansible_pkg_mgr == 'dnf' %}
         directory "/var/named";
-        {% elif ansible_pkg_mgr == 'zypper' %}
-        directory "/var/lib/named";
-        managed-keys-directory "/var/lib/named/dyn/";
-        dump-file "/var/log/named_dump.db";
-        statistics-file "/var/log/named.stats";
-        notify no;
-        disable-empty-zone "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.IP6.ARPA";
         {% endif %}
 
         // If there is a firewall between you and nameservers you want
@@ -49,7 +42,7 @@ controls {
 };
 {% endif %}
 
-{% if ansible_pkg_mgr in ['yum', 'dnf'] %}
+{% if ansible_pkg_mgr == 'dnf' %}
 logging {
         channel default_debug {
                 file "data/named.run";
@@ -64,30 +57,4 @@ zone "." IN {
 
 include "/etc/named.rfc1912.zones";
 include "/etc/named.root.key";
-
-{% elif ansible_pkg_mgr == 'zypper' %}
-
-zone "." in {
-        type hint;
-        file "root.hint";
-};
-
-zone "localhost" in {
-        type master;
-        file "localhost.zone";
-};
-
-zone "0.0.127.in-addr.arpa" in {
-        type master;
-        file "127.0.0.zone";
-};
-
-zone "0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa" IN {
-    type master;
-    file "127.0.0.zone";
-};
-
-
-include "/etc/named.conf.include";
-
 {% endif %}
