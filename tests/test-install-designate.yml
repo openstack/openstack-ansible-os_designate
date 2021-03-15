@@ -18,10 +18,10 @@
   remote_user: root
   gather_facts: true
   vars:
-    named_config_file: "{{ (ansible_pkg_mgr == 'apt') | ternary('/etc/bind/named.conf.options','/etc/named.conf') }}"
-    bind_package_name: "{{ (ansible_pkg_mgr == 'apt') | ternary('bind9','bind') }}"
-    bind_service_name: "{{ (ansible_pkg_mgr == 'apt') | ternary('bind9','named') }}"
-    bind_service_state: "{{ (ansible_pkg_mgr == 'apt') | ternary('restarted','started') }}"
+    named_config_file: "{{ (ansible_facts['pkg_mgr'] == 'apt') | ternary('/etc/bind/named.conf.options','/etc/named.conf') }}"
+    bind_package_name: "{{ (ansible_facts['pkg_mgr'] == 'apt') | ternary('bind9','bind') }}"
+    bind_service_name: "{{ (ansible_facts['pkg_mgr'] == 'apt') | ternary('bind9','named') }}"
+    bind_service_state: "{{ (ansible_facts['pkg_mgr'] == 'apt') | ternary('restarted','started') }}"
   vars_files:
     - common/test-vars.yml
   pre_tasks:
@@ -43,7 +43,7 @@
         owner: 'root'
         group: 'named'
       when:
-        - ansible_pkg_mgr == 'dnf'
+        - ansible_facts['pkg_mgr'] == 'dnf'
 
     - name: Restart bind9
       service:
