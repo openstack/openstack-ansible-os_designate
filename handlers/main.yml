@@ -27,34 +27,11 @@
     - "Restart designate services"
     - "venv changed"
 
-# Note (odyssey4me):
-# The policy.json file is currently read continually by the services
-# and is not only read on service start. We therefore cannot template
-# directly to the file read by the service because the new policies
-# may not be valid until the service restarts. This is particularly
-# important during a major upgrade. We therefore only put the policy
-# file in place after the service has been stopped.
-#
-- name: Copy new policy file into place
-  copy:
-    src: "/etc/designate/policy.json-{{ designate_venv_tag }}"
-    dest: "/etc/designate/policy.json"
-    owner: "root"
-    group: "{{ designate_system_group_name }}"
-    mode: "0640"
-    remote_src: yes
-  when:
-    - designate_policy_overrides != {}
-  listen:
-    - "Restart designate services"
-    - "venv changed"
-
-- name: Remove legacy policy.json file
+# NOTE (noonedeadpunk): Remove this task after Xena release
+- name: Remove obsoleted policy.json
   file:
     path: "/etc/designate/policy.json"
     state: absent
-  when:
-    - designate_policy_overrides == {}
   listen:
     - "Restart designate services"
     - "venv changed"
