@@ -57,12 +57,27 @@
       config_type: "ini"
   notify: Restart designate services
 
-- name: Implement policy.json if there are overrides configured
-  copy:
-    content: "{{ designate_policy_overrides | to_nice_json }}"
-    dest: "/etc/designate/policy.json-{{ designate_venv_tag }}"
+- name: Implement policy.yaml if there are overrides configured
+  config_template:
+    content: "{{ designate_policy_overrides }}"
+    dest: "/etc/designate/policy.yaml"
+    owner: "{{ designate_system_user_name }}"
+    group: "{{ designate_system_group_name }}"
+    mode: "0644"
+    config_type: yaml
   when:
-    - designate_policy_overrides != {}
+    - designate_policy_overrides | length > 0
+  tags:
+    - designate-policy-override
+
+- name: Remove legacy policy.yaml file
+  file:
+    path: "/etc/designate/policy.yaml"
+    state: absent
+  when:
+    - designate_policy_overrides | length == 0
+  tags:
+    - designate-policy-override
 
 - name: Create Designate pools.yaml file
   copy:
