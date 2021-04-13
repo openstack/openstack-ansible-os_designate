@@ -59,7 +59,7 @@ transport_url = {{ designate_oslomsg_notify_transport }}://{% for host in design
 #min_ttl = None
 
 # The name of the default pool
-#default_pool_id = '794ccc2c-d751-44fe-b57f-8894c9f5c842'
+default_pool_id = {{ designate_pool_uuid }}
 
 ## Managed resources settings
 
@@ -253,9 +253,6 @@ memcached_servers = {{ designate_memcached_servers }}
 
 # Number of Pool Manager greenthreads to spawn
 #threads = 1000
-
-# The ID of the pool managed by this instance of the Pool Manager
-pool_id = {{ designate_pool_uuid }}
 
 # The percentage of servers requiring a successful update for a domain change
 # to be considered active
