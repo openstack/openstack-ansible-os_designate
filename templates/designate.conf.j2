@@ -24,7 +24,7 @@ root_helper = sudo designate-rootwrap /etc/designate/rootwrap.conf
 #network_api = neutron
 
 ## RabbitMQ RPC
-transport_url = {{ designate_oslomsg_rpc_transport }}://{% for host in designate_oslomsg_rpc_servers.split(',') %}{{ designate_oslomsg_rpc_userid }}:{{ designate_oslomsg_rpc_password }}@{{ host }}:{{ designate_oslomsg_rpc_port }}{% if not loop.last %},{% else %}/{{ designate_oslomsg_rpc_vhost }}{% if designate_oslomsg_rpc_use_ssl | bool %}?ssl=1{% else %}?ssl=0{% endif %}{% endif %}{% endfor %}
+transport_url = {{ designate_oslomsg_rpc_transport }}://{% for host in designate_oslomsg_rpc_servers.split(',') %}{{ designate_oslomsg_rpc_userid }}:{{ designate_oslomsg_rpc_password }}@{{ host }}:{{ designate_oslomsg_rpc_port }}{% if not loop.last %},{% else %}/{{ designate_oslomsg_rpc_vhost }}{% if designate_oslomsg_rpc_use_ssl | bool %}?ssl=1&ssl_version={{ designate_oslomsg_rpc_ssl_version }}&ssl_ca_file={{ designate_oslomsg_rpc_ssl_ca_file }}{% else %}?ssl=0{% endif %}{% endif %}{% endfor %}
 
 # RabbitMQ Config
 [oslo_messaging_rabbit]
@@ -34,7 +34,7 @@ rabbit_notification_topic = notifications
 
 [oslo_messaging_notifications]
 driver = {{ (designate_ceilometer_enabled | bool) | ternary('messagingv2', 'noop') }}
-transport_url = {{ designate_oslomsg_notify_transport }}://{% for host in designate_oslomsg_notify_servers.split(',') %}{{ designate_oslomsg_notify_userid }}:{{ designate_oslomsg_notify_password }}@{{ host }}:{{ designate_oslomsg_notify_port }}{% if not loop.last %},{% else %}/{{ designate_oslomsg_notify_vhost }}{% if designate_oslomsg_notify_use_ssl | bool %}?ssl=1{% else %}?ssl=0{% endif %}{% endif %}{% endfor %}
+transport_url = {{ designate_oslomsg_notify_transport }}://{% for host in designate_oslomsg_notify_servers.split(',') %}{{ designate_oslomsg_notify_userid }}:{{ designate_oslomsg_notify_password }}@{{ host }}:{{ designate_oslomsg_notify_port }}{% if not loop.last %},{% else %}/{{ designate_oslomsg_notify_vhost }}{% if designate_oslomsg_notify_use_ssl | bool %}?ssl=1&ssl_version={{ designate_oslomsg_notify_ssl_version }}&ssl_ca_file={{ designate_oslomsg_notify_ssl_ca_file }}{% else %}?ssl=0{% endif %}{% endif %}{% endfor %}
 
 ########################
 ## Service Configuration
