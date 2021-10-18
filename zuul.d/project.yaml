@@ -21,14 +21,12 @@
     check:
       jobs:
         - openstack-ansible-deploy-aio_metal_designate-centos-7
-        - openstack-ansible-deploy-aio_metal_designate-debian-stable
         - openstack-ansible-deploy-aio_metal_designate-ubuntu-bionic
         - openstack-ansible-deploy-aio_distro_metal_designate-centos-7
         - openstack-ansible-deploy-aio_distro_metal_designate-ubuntu-bionic
     gate:
       jobs:
         - openstack-ansible-deploy-aio_metal_designate-centos-7
-        - openstack-ansible-deploy-aio_metal_designate-debian-stable
         - openstack-ansible-deploy-aio_metal_designate-ubuntu-bionic
         - openstack-ansible-deploy-aio_distro_metal_designate-centos-7
         - openstack-ansible-deploy-aio_distro_metal_designate-ubuntu-bionic
