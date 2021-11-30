@@ -32,7 +32,7 @@
     designate_managed_resource_tenant_id: "{{ _get_managed_resource_project.openstack_projects[0].id }}"
 
 - name: Copy designate config
-  config_template:
+  openstack.config_template.config_template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: "{{ item.owner|default(designate_system_user_name) }}"
@@ -58,7 +58,7 @@
   notify: Restart designate services
 
 - name: Implement policy.yaml if there are overrides configured
-  config_template:
+  openstack.config_template.config_template:
     content: "{{ designate_policy_overrides }}"
     dest: "/etc/designate/policy.yaml"
     owner: "{{ designate_system_user_name }}"
