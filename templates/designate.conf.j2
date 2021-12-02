@@ -373,7 +373,11 @@ endpoint_type = internalURL
 # SQLAlchemy Storage
 #-----------------------
 [storage:sqlalchemy]
-connection = mysql+pymysql://{{ designate_galera_user }}:{{ designate_galera_password }}@{{ designate_galera_address }}/{{ designate_galera_database }}?charset=utf8{% if designate_galera_use_ssl | bool %}&ssl_verify_cert=true{% if designate_galera_ssl_ca_cert | length > 0 %}&ssl_ca={{ designate_galera_ssl_ca_cert }}{% endif %}{% endif %}
+connection = mysql+pymysql://{{ designate_galera_user }}:{{ designate_galera_password }}@{{ designate_galera_address }}/{{ designate_galera_database }}?charset=utf8{% if designate_galera_use_ssl | bool %}&ssl_verify_cert=true{% if designate_galera_ssl_ca_cert | length > 0 %}&ssl_ca={{ designate_galera_ssl_ca_cert }}{% endif %}{% endif +%}
+max_overflow = {{ designate_db_max_overflow }}
+max_pool_size = {{ designate_db_max_pool_size }}
+pool_timeout = {{ designate_db_pool_timeout }}
+connection_recycle_time = {{ designate_db_connection_recycle_time }}
 
 #connection_debug = 0
 #connection_trace = False
