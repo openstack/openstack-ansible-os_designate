@@ -39,7 +39,12 @@
   tags:
     - always
 
-- import_tasks: db_setup.yml
+- include_role:
+    name: openstack.osa.db_setup
+    apply:
+      tags:
+        - common-db
+        - designate-config
   when:
     - "_designate_is_first_play_host"
   vars:
@@ -53,10 +58,14 @@
           - username: "{{ designate_galera_user }}"
             password: "{{ designate_galera_password }}"
   tags:
-    - common-db
-    - designate-config
+    - always
 
-- import_tasks: mq_setup.yml
+- include_role:
+    name: openstack.osa.mq_setup
+    apply:
+      tags:
+        - common-mq
+        - designate-config
   when:
     - "_designate_is_first_play_host"
   vars:
@@ -72,8 +81,7 @@
     _oslomsg_notify_transport: "{{ designate_oslomsg_notify_transport }}"
     _oslomsg_configure_notify: "{{ designate_ceilometer_enabled | bool }}"
   tags:
-    - common-mq
-    - designate-config
+    - always
 
 - import_tasks: designate_pre_install.yml
   tags:
@@ -115,7 +123,12 @@
   tags:
     - designate-install
 
-- import_tasks: service_setup.yml
+- include_role:
+    name: openstack.osa.service_setup
+    apply:
+      tags:
+        - common-service
+        - designate-config
   vars:
     _service_adminuri_insecure: "{{ keystone_service_adminuri_insecure }}"
     _service_in_ldap: "{{ designate_service_in_ldap }}"
@@ -143,7 +156,7 @@
         description: "{{ designate_service_description }}"
   when: _designate_is_first_play_host
   tags:
-    - designate-install
+    - always
 
 - name: Flush handlers
   meta: flush_handlers
