@@ -27,15 +27,6 @@
     - "Restart designate services"
     - "venv changed"
 
-# NOTE (noonedeadpunk): Remove this task after Xena release
-- name: Remove obsoleted policy.json
-  file:
-    path: "/etc/designate/policy.json"
-    state: absent
-  listen:
-    - "Restart designate services"
-    - "venv changed"
-
 - name: Perform Designate pools update
   command: "{{ designate_bin }}/designate-manage pool update --file /etc/designate/pools.yaml"
   become: yes
