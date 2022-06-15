@@ -103,9 +103,6 @@ designate_oslomsg_notify_ssl_ca_file: "{{ oslomsg_notify_ssl_ca_file | default('
 # TODO(ansmith): Change structure when more backends will be supported
 designate_oslomsg_amqp1_enabled: "{{ designate_oslomsg_rpc_transport == 'amqp' }}"
 
-# Designate services info
-designate_role_name: admin
-
 ## DNS Backend Configuration
 #  Configuration for the DNS backend that Designate will talk to, Designate
 #  supports lots of backends, bind9, powerdns, nsd, djb, dyn, akamai, etc.
@@ -166,7 +163,12 @@ designate_service_user_domain_id: default
 designate_service_user_name: designate
 designate_keystone_auth_type: password
 designate_service_project_name: service
-
+designate_service_role_names:
+  - admin
+  - service
+designate_service_token_roles:
+  - service
+designate_service_token_roles_required: "{{ openstack_service_token_roles_required | default(True) }}"
 designate_service_publicuri_proto: "{{ openstack_service_publicuri_proto | default(designate_service_proto) }}"
 designate_service_internaluri_proto: "{{ openstack_service_internaluri_proto | default(designate_service_proto) }}"
 designate_service_adminuri_proto: "{{ openstack_service_adminuri_proto | default(designate_service_proto) }}"

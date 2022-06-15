@@ -144,7 +144,7 @@
     _service_users:
       - name: "{{ designate_service_user_name }}"
         password: "{{ designate_service_password }}"
-        role: "{{ designate_role_name }}"
+        role: "{{ designate_service_role_names }}"
     _service_endpoints:
       - service: "{{ designate_service_name }}"
         interface: "public"

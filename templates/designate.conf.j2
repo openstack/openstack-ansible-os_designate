@@ -144,6 +144,10 @@ project_name = {{ designate_service_project_name }}
 username = {{ designate_service_user_name }}
 password = {{ designate_service_password }}
 
+service_token_roles_required = {{ designate_service_token_roles_required | bool }}
+service_token_roles = {{ designate_service_token_roles | join(',') }}
+service_type = {{ designate_service_type }}
+
 memcached_servers = {{ designate_memcached_servers }}
 
 #-----------------------
