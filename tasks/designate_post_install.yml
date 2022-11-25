@@ -79,13 +79,6 @@
   tags:
     - designate-policy-override
 
-- name: Create Designate pools.yaml file
-  copy:
-    content: "{{ designate_pools_yaml | to_nice_yaml }}"
-    dest: "/etc/designate/pools.yaml"
-  when: designate_pools_yaml is defined
-  notify: Perform Designate pools update
-
 - name: Create Designate rndc key file
   template:
     src: rndc.key.j2
