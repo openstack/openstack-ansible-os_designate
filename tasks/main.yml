@@ -101,33 +101,6 @@
     - designate-install
     - designate-config
 
-- name: Run the systemd service role
-  import_role:
-    name: systemd_service
-  vars:
-    systemd_user_name: "{{ designate_system_user_name }}"
-    systemd_group_name: "{{ designate_system_group_name }}"
-    systemd_service_restart_changed: false
-    systemd_tempd_prefix: openstack
-    systemd_slice_name: designate
-    systemd_lock_path: /var/lock/designate
-    systemd_CPUAccounting: true
-    systemd_BlockIOAccounting: true
-    systemd_MemoryAccounting: true
-    systemd_TasksAccounting: true
-    systemd_services: "{{ filtered_designate_services }}"
-  tags:
-    - designate-config
-    - systemd-service
-
-- name: Flush handlers
-  meta: flush_handlers
-
-- import_tasks: designate_db_sync.yml
-  when: _designate_is_first_play_host
-  tags:
-    - designate-install
-
 - include_role:
     name: openstack.osa.service_setup
     apply:
@@ -162,6 +135,45 @@
   when: _designate_is_first_play_host
   tags:
     - always
+
+- name: Run the systemd service role
+  import_role:
+    name: systemd_service
+  vars:
+    systemd_user_name: "{{ designate_system_user_name }}"
+    systemd_group_name: "{{ designate_system_group_name }}"
+    systemd_service_restart_changed: false
+    systemd_tempd_prefix: openstack
+    systemd_slice_name: designate
+    systemd_lock_path: /var/lock/designate
+    systemd_CPUAccounting: true
+    systemd_BlockIOAccounting: true
+    systemd_MemoryAccounting: true
+    systemd_TasksAccounting: true
+    systemd_services: "{{ filtered_designate_services }}"
+  tags:
+    - designate-config
+    - systemd-service
+
+- name: Flush handlers
+  meta: flush_handlers
+
+- import_tasks: designate_db_sync.yml
+  when: _designate_is_first_play_host
+  tags:
+    - designate-install
+
+- name: Place Designate pools.yaml file
+  copy:
+    content: "{{ designate_pools_yaml | to_nice_yaml }}"
+    dest: "/etc/designate/pools.yaml"
+  when:
+    - designate_pools_yaml is defined
+    - _designate_is_first_play_host
+  notify:
+    - Perform Designate pools update
+  tags:
+    - designate-config
 
 - name: Flush handlers
   meta: flush_handlers

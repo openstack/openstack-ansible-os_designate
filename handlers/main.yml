@@ -33,7 +33,6 @@
   become_user: "{{ designate_system_user_name }}"
   changed_when: false
   when: designate_pools_yaml is defined
-  notify: Restart designate services
 
 - name: Start services
   systemd:
