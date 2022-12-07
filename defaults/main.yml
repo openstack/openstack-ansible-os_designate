@@ -59,6 +59,16 @@ designate_system_shell: /bin/false
 designate_system_comment: designate system user
 designate_system_user_home: "/var/lib/{{ designate_system_user_name }}"
 
+## Coordination info
+designate_coordination_driver: "{{ coordination_driver | default('zookeeper') }}"
+designate_coordination_group: "{{ coordination_host_group | default('zookeeper_all') }}"
+designate_coordination_enable: "{{ designate_coordination_group in groups and groups[designate_coordination_group] | length > 0 }}"
+designate_coordination_namespace: designate
+designate_coordination_client_ssl: "{{ coordination_client_ssl | default(False) }}"
+designate_coordination_verify_cert: "{{ coordination_verify_cert | default(True) }}"
+designate_coordination_port: "{{ coordination_port | default(designate_coordination_client_ssl | ternary('2281', '2181')) }}"
+designate_coordination_url: "{{ _designate_coordination_url | default() }}"
+
 ## Database info
 designate_db_setup_host: "{{ openstack_db_setup_host | default('localhost') }}"
 designate_db_setup_python_interpreter: "{{ openstack_db_setup_python_interpreter | default((designate_db_setup_host == 'localhost') | ternary(ansible_playbook_python, ansible_facts['python']['executable'])) }}"
@@ -192,6 +202,7 @@ designate_pip_packages:
   - pymemcache
   - python-memcached
   - systemd-python
+  - "tooz[{{ designate_coordination_driver }}]"
   - warlock
 designate_user_pip_packages: []
 
