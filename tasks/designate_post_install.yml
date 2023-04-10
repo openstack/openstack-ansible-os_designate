@@ -29,7 +29,7 @@
 
 - name: Store project id for managed resources
   set_fact:
-    designate_managed_resource_tenant_id: "{{ _get_managed_resource_project.openstack_projects[0].id }}"
+    designate_managed_resource_tenant_id: "{{ _get_managed_resource_project.projects[0].id }}"
 
 - name: Copy designate config
   openstack.config_template.config_template:
