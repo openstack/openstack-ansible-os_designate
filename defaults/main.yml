@@ -261,3 +261,51 @@ designate_policy_overrides: {}
 designate_designate_conf_overrides: {}
 designate_api_paste_ini_overrides: {}
 designate_rootwrap_conf_overrides: {}
+
+###
+### Backend TLS
+###
+
+# Define if communication between haproxy and service backends should be
+# encrypted with TLS.
+designate_backend_ssl: "{{ openstack_service_backend_ssl | default(False) }}"
+
+# Storage location for SSL certificate authority
+designate_pki_dir: "{{ openstack_pki_dir | default('/etc/openstack_deploy/pki') }}"
+
+# Delegated host for operating the certificate authority
+designate_pki_setup_host: "{{ openstack_pki_setup_host | default('localhost') }}"
+
+# designate server certificate
+designate_pki_keys_path: "{{ designate_pki_dir ~ '/certs/private/' }}"
+designate_pki_certs_path: "{{ designate_pki_dir ~ '/certs/certs/' }}"
+designate_pki_intermediate_cert_name: "{{ openstack_pki_service_intermediate_cert_name | default('ExampleCorpIntermediate') }}"
+designate_pki_regen_cert: ''
+designate_pki_san: "{{ openstack_pki_san | default('DNS:' ~ ansible_facts['hostname'] ~ ',IP:' ~ management_address) }}"
+designate_pki_certificates:
+  - name: "designate_{{ ansible_facts['hostname'] }}"
+    provider: ownca
+    cn: "{{ ansible_facts['hostname'] }}"
+    san: "{{ designate_pki_san }}"
+    signed_by: "{{ designate_pki_intermediate_cert_name }}"
+
+# designate destination files for SSL certificates
+designate_ssl_cert: /etc/designate/designate.pem
+designate_ssl_key: /etc/designate/designate.key
+
+# Installation details for SSL certificates
+designate_pki_install_certificates:
+  - src: "{{ designate_user_ssl_cert | default(designate_pki_certs_path ~ 'designate_' ~ ansible_facts['hostname'] ~ '-chain.crt') }}"
+    dest: "{{ designate_ssl_cert }}"
+    owner: "{{ designate_system_user_name }}"
+    group: "{{ designate_system_user_name }}"
+    mode: "0644"
+  - src: "{{ designate_user_ssl_key | default(designate_pki_keys_path ~ 'designate_' ~ ansible_facts['hostname'] ~ '.key.pem') }}"
+    dest: "{{ designate_ssl_key }}"
+    owner: "{{ designate_system_user_name }}"
+    group: "{{ designate_system_user_name }}"
+    mode: "0600"
+
+# Define user-provided SSL certificates
+#designate_user_ssl_cert: <path to cert on ansible deployment host>
+#designate_user_ssl_key: <path to cert on ansible deployment host>

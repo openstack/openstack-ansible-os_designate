@@ -36,6 +36,12 @@ rabbit_notification_topic = notifications
 driver = {{ (designate_ceilometer_enabled | bool) | ternary('messagingv2', 'noop') }}
 transport_url = {{ designate_oslomsg_notify_transport }}://{% for host in designate_oslomsg_notify_servers.split(',') %}{{ designate_oslomsg_notify_userid }}:{{ designate_oslomsg_notify_password }}@{{ host }}:{{ designate_oslomsg_notify_port }}{% if not loop.last %},{% else %}/{{ designate_oslomsg_notify_vhost }}{% if designate_oslomsg_notify_use_ssl | bool %}?ssl=1&ssl_version={{ designate_oslomsg_notify_ssl_version }}&ssl_ca_file={{ designate_oslomsg_notify_ssl_ca_file }}{% else %}?ssl=0{% endif %}{% endif %}{% endfor %}
 
+{% if designate_backend_ssl | bool %}
+[ssl]
+cert_file = {{ designate_ssl_cert }}
+key_file = {{ designate_ssl_key }}
+{% endif %}
+
 ########################
 ## Service Configuration
 ########################
