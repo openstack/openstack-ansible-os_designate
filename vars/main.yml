@@ -13,7 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-_designate_is_first_play_host: "{{ (designate_services['designate-api']['group'] in group_names and inventory_hostname == (groups[designate_services['designate-api']['group']] | intersect(ansible_play_hosts)) | first) | bool }}"
+_designate_is_first_play_host: >-
+  {{
+    (designate_services['designate-api']['group'] in group_names and
+      inventory_hostname == (groups[designate_services['designate-api']['group']] | intersect(ansible_play_hosts)) | first) | bool
+  }}
 
 #
 # Compile a list of the services on a host based on whether
@@ -46,4 +50,5 @@ _designate_coordination_url: >-
       groups[designate_coordination_group]
         | map('extract', hostvars, 'ansible_host')
         | list | join(':' ~ designate_coordination_port ~ ',')
-    }}:{{ designate_coordination_port }}?namespace={{ designate_coordination_namespace }}{% if designate_coordination_client_ssl | bool %}&use_ssl=True&verify_certs={{ designate_coordination_verify_cert | bool }}{% endif %}
+    }}:{{ designate_coordination_port }}?namespace={{ designate_coordination_namespace -}}
+    {%- if designate_coordination_client_ssl | bool %}&use_ssl=True&verify_certs={{ designate_coordination_verify_cert | bool }}{% endif %}

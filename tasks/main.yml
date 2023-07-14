@@ -43,7 +43,8 @@
   tags:
     - always
 
-- include_role:
+- name: Including osa.db_setup role
+  include_role:
     name: openstack.osa.db_setup
     apply:
       tags:
@@ -64,7 +65,8 @@
   tags:
     - always
 
-- include_role:
+- name: Including osa.mq_setup role
+  include_role:
     name: openstack.osa.mq_setup
     apply:
       tags:
@@ -87,11 +89,13 @@
   tags:
     - always
 
-- import_tasks: designate_pre_install.yml
+- name: Importing designate_pre_install tasks
+  import_tasks: designate_pre_install.yml
   tags:
     - designate-install
 
-- import_tasks: designate_install.yml
+- name: Importing designate_install tasks
+  import_tasks: designate_install.yml
   tags:
     - designate-install
 
@@ -115,12 +119,14 @@
   tags:
     - always
 
-- import_tasks: designate_post_install.yml
+- name: Importing designate_post_install tasks
+  import_tasks: designate_post_install.yml
   tags:
     - designate-install
     - designate-config
 
-- include_role:
+- name: Including osa.service_setup tasks
+  include_role:
     name: openstack.osa.service_setup
     apply:
       tags:
@@ -165,10 +171,10 @@
     systemd_tempd_prefix: openstack
     systemd_slice_name: designate
     systemd_lock_path: /var/lock/designate
-    systemd_CPUAccounting: true
-    systemd_BlockIOAccounting: true
-    systemd_MemoryAccounting: true
-    systemd_TasksAccounting: true
+    systemd_service_cpu_accounting: true
+    systemd_service_block_io_accounting: true
+    systemd_service_memory_accounting: true
+    systemd_service_tasks_accounting: true
     systemd_services: "{{ filtered_designate_services }}"
   tags:
     - designate-config
@@ -177,7 +183,8 @@
 - name: Flush handlers
   meta: flush_handlers
 
-- import_tasks: designate_db_sync.yml
+- name: Importing designate_db_sync tasks
+  import_tasks: designate_db_sync.yml
   when: _designate_is_first_play_host
   tags:
     - designate-install
@@ -186,6 +193,9 @@
   copy:
     content: "{{ designate_pools_yaml | to_nice_yaml }}"
     dest: "/etc/designate/pools.yaml"
+    mode: "0640"
+    owner: "{{ designate_system_user_name }}"
+    group: "{{ designate_system_group_name }}"
   when:
     - designate_pools_yaml is defined
     - _designate_is_first_play_host

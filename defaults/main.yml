@@ -23,7 +23,11 @@ designate_ceilometer_enabled: "{{ (groups['ceilometer_all'] is defined) and (gro
 # for the service setup. The host must already have
 # clouds.yaml properly configured.
 designate_service_setup_host: "{{ openstack_service_setup_host | default('localhost') }}"
-designate_service_setup_host_python_interpreter: "{{ openstack_service_setup_host_python_interpreter | default((designate_service_setup_host == 'localhost') | ternary(ansible_playbook_python, ansible_facts['python']['executable'])) }}"
+designate_service_setup_host_python_interpreter: >-
+  {{
+    openstack_service_setup_host_python_interpreter | default(
+      (designate_service_setup_host == 'localhost') | ternary(ansible_playbook_python, ansible_facts['python']['executable']))
+  }}
 
 # Set the package install state for distribution packages
 # Options are 'present' and 'latest'
@@ -36,7 +40,8 @@ designate_venv_python_executable: "{{ openstack_venv_python_executable | default
 ## The git source/branch
 designate_git_repo: https://opendev.org/openstack/designate
 designate_git_install_branch: master
-designate_upper_constraints_url: "{{ requirements_git_url | default('https://releases.openstack.org/constraints/upper/' ~ requirements_git_install_branch | default('master')) }}"
+designate_upper_constraints_url: >-
+  {{ requirements_git_url | default('https://releases.openstack.org/constraints/upper/' ~ requirements_git_install_branch | default('master')) }}
 designate_git_constraints:
   - "--constraint {{ designate_upper_constraints_url }}"
 
@@ -71,7 +76,11 @@ designate_coordination_url: "{{ _designate_coordination_url | default() }}"
 
 ## Database info
 designate_db_setup_host: "{{ openstack_db_setup_host | default('localhost') }}"
-designate_db_setup_python_interpreter: "{{ openstack_db_setup_python_interpreter | default((designate_db_setup_host == 'localhost') | ternary(ansible_playbook_python, ansible_facts['python']['executable'])) }}"
+designate_db_setup_python_interpreter: >-
+  {{
+    openstack_db_setup_python_interpreter | default(
+      (designate_db_setup_host == 'localhost') | ternary(ansible_playbook_python, ansible_facts['python']['executable']))
+  }}
 designate_galera_address: "{{ galera_address | default('127.0.0.1') }}"
 designate_galera_user: designate
 designate_galera_database: designate
@@ -98,7 +107,8 @@ designate_oslomsg_rpc_ssl_ca_file: "{{ oslomsg_rpc_ssl_ca_file | default('') }}"
 
 # Notify
 designate_oslomsg_notify_host_group: "{{ oslomsg_notify_host_group | default('rabbitmq_all') }}"
-designate_oslomsg_notify_setup_host: "{{ (designate_oslomsg_notify_host_group in groups) | ternary(groups[designate_oslomsg_notify_host_group][0], 'localhost') }}"
+designate_oslomsg_notify_setup_host: >-
+  {{ (designate_oslomsg_notify_host_group in groups) | ternary(groups[designate_oslomsg_notify_host_group][0], 'localhost') }}
 designate_oslomsg_notify_transport: "{{ oslomsg_notify_transport | default('rabbit') }}"
 designate_oslomsg_notify_servers: "{{ oslomsg_notify_servers | default('127.0.0.1') }}"
 designate_oslomsg_notify_port: "{{ oslomsg_notify_port | default('5672') }}"
@@ -307,5 +317,5 @@ designate_pki_install_certificates:
     mode: "0600"
 
 # Define user-provided SSL certificates
-#designate_user_ssl_cert: <path to cert on ansible deployment host>
-#designate_user_ssl_key: <path to cert on ansible deployment host>
+# designate_user_ssl_cert: <path to cert on ansible deployment host>
+# designate_user_ssl_key: <path to cert on ansible deployment host>

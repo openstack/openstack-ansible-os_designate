@@ -16,7 +16,7 @@
 - name: Get project id for managed resources
   delegate_to: "{{ designate_service_setup_host }}"
   vars:
-    ansible_python_interpreter:  "{{ designate_service_setup_host_python_interpreter }}"
+    ansible_python_interpreter: "{{ designate_service_setup_host_python_interpreter }}"
   openstack.cloud.project_info:
     cloud: default
     name: "{{ designate_managed_resource_project_name }}"
@@ -35,8 +35,8 @@
   openstack.config_template.config_template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ item.owner|default(designate_system_user_name) }}"
-    group: "{{ item.group|default(designate_system_group_name) }}"
+    owner: "{{ item.owner | default(designate_system_user_name) }}"
+    group: "{{ item.group | default(designate_system_group_name) }}"
     mode: "0644"
     config_overrides: "{{ item.config_overrides }}"
     config_type: "{{ item.config_type }}"
@@ -95,6 +95,7 @@
     dest: "/etc/designate/rootwrap.d/"
     owner: "root"
     group: "root"
+    mode: "0644"
   with_fileglob:
     - rootwrap.d/*
   notify: Restart designate services
