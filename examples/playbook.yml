@@ -3,7 +3,9 @@
   hosts: designate_all
   user: root
   roles:
-    - { role: "os_designate", tags: [ "os-designate" ] }
+    - role: "os_designate"
+      tags:
+        - "os-designate"
   vars:
     external_lb_vip_address: 172.16.24.1
     internal_lb_vip_address: 192.168.0.1
