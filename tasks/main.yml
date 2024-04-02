@@ -188,7 +188,7 @@
     dest: "/etc/designate/pools.yaml"
   when:
     - designate_pools_yaml is defined
-    - _designate_is_first_play_host
+    - _designate_is_last_play_host
   notify:
     - Perform Designate pools update
   tags:

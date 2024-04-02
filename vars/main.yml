@@ -14,6 +14,7 @@
 # limitations under the License.
 
 _designate_is_first_play_host: "{{ (designate_services['designate-api']['group'] in group_names and inventory_hostname == (groups[designate_services['designate-api']['group']] | intersect(ansible_play_hosts)) | first) | bool }}"
+_designate_is_last_play_host: "{{ (designate_services['designate-api']['group'] in group_names and inventory_hostname == (groups[designate_services['designate-api']['group']] | intersect(ansible_play_hosts)) | last) | bool }}"
 
 #
 # Compile a list of the services on a host based on whether
