@@ -32,6 +32,9 @@ ssl = {{ designate_oslomsg_rpc_use_ssl }}
 rabbit_notification_exchange = designate
 rabbit_notification_topic = notifications
 rabbit_quorum_queue = {{ designate_oslomsg_rabbit_quorum_queues }}
+transient_quorum_queue = {{ designate_oslomsg_rabbit_transient_quorum_queues }}
+use_queue_manager = {{ designate_oslomsg_rabbit_queue_manager }}
+rabbit_stream_fanout = {{ designate_oslomsg_rabbit_stream_fanout }}
 rabbit_quorum_delivery_limit = {{ designate_oslomsg_rabbit_quorum_delivery_limit }}
 rabbit_quorum_max_memory_bytes = {{ designate_oslomsg_rabbit_quorum_max_memory_bytes }}
 
