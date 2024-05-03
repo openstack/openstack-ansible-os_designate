@@ -110,6 +110,7 @@ designate_oslomsg_rpc_vhost:
     state: "{{ designate_oslomsg_rabbit_quorum_queues | ternary('present', 'absent') }}"
 designate_oslomsg_rpc_ssl_version: "{{ oslomsg_rpc_ssl_version | default('TLSv1_2') }}"
 designate_oslomsg_rpc_ssl_ca_file: "{{ oslomsg_rpc_ssl_ca_file | default('') }}"
+designate_oslomsg_rpc_policies: []
 
 # Notify
 designate_oslomsg_notify_host_group: "{{ oslomsg_notify_host_group | default('rabbitmq_all') }}"
@@ -124,6 +125,7 @@ designate_oslomsg_notify_password: "{{ designate_oslomsg_rpc_password }}"
 designate_oslomsg_notify_vhost: "{{ designate_oslomsg_rpc_vhost }}"
 designate_oslomsg_notify_ssl_version: "{{ oslomsg_notify_ssl_version | default('TLSv1_2') }}"
 designate_oslomsg_notify_ssl_ca_file: "{{ oslomsg_notify_ssl_ca_file | default('') }}"
+designate_oslomsg_notify_policies: []
 
 ## RabbitMQ integration
 designate_oslomsg_rabbit_quorum_queues: "{{ oslomsg_rabbit_quorum_queues | default(True) }}"
