@@ -36,7 +36,7 @@ rabbit_quorum_delivery_limit = {{ designate_oslomsg_rabbit_quorum_delivery_limit
 rabbit_quorum_max_memory_bytes = {{ designate_oslomsg_rabbit_quorum_max_memory_bytes }}
 
 [oslo_messaging_notifications]
-driver = {{ (designate_ceilometer_enabled | bool) | ternary('messagingv2', 'noop') }}
+driver = {{ (designate_oslomsg_notify_configure | bool) | ternary('messagingv2', 'noop') }}
 transport_url = {{ designate_oslomsg_notify_transport }}://{% for host in designate_oslomsg_notify_servers.split(',') %}{{ designate_oslomsg_notify_userid }}:{{ designate_oslomsg_notify_password }}@{{ host }}:{{ designate_oslomsg_notify_port }}{% if not loop.last %},{% else %}/{{ _designate_oslomsg_notify_vhost_conf }}{% if designate_oslomsg_notify_use_ssl | bool %}?ssl=1&ssl_version={{ designate_oslomsg_notify_ssl_version }}&ssl_ca_file={{ designate_oslomsg_notify_ssl_ca_file }}{% else %}?ssl=0{% endif %}{% endif %}{% endfor %}
 
 {% if designate_backend_ssl | bool %}

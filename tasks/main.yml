@@ -88,6 +88,7 @@
     _oslomsg_notify_transport: "{{ designate_oslomsg_notify_transport }}"
     _oslomsg_configure_notify: "{{ designate_ceilometer_enabled | bool }}"
     _oslomsg_notify_policies: "{{ designate_oslomsg_notify_policies }}"
+    _oslomsg_notify_configure: "{{ designate_oslomsg_notify_configure }}"
   tags:
     - always
 
