@@ -127,6 +127,7 @@
   tags:
     - designate-install
     - designate-config
+    - post-install
 
 - name: Including osa.service_setup tasks
   include_role:
