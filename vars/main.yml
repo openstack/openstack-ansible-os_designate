@@ -16,13 +16,13 @@
 _designate_is_first_play_host: >-
   {{
     (designate_services['designate-api']['group'] in group_names and
-      inventory_hostname == (groups[designate_services['designate-api']['group']] | intersect(ansible_play_hosts)) | first) | bool
+      inventory_hostname == (groups[designate_services['designate-api']['group']] | select('in', ansible_play_hosts)) | first) | bool
   }}
 
 _designate_is_last_play_host: >-
   {{
     (designate_services['designate-api']['group'] in group_names and
-      inventory_hostname == (groups[designate_services['designate-api']['group']] | intersect(ansible_play_hosts)) | last) | bool
+      inventory_hostname == (groups[designate_services['designate-api']['group']] | select('in', ansible_play_hosts)) | last) | bool
   }}
 
 _designate_oslomsg_rpc_vhost_conf: >-
