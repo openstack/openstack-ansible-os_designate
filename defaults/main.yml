@@ -137,10 +137,6 @@ designate_oslomsg_rabbit_queue_manager: "{{ oslomsg_rabbit_queue_manager | defau
 designate_oslomsg_rabbit_quorum_delivery_limit: "{{ oslomsg_rabbit_quorum_delivery_limit | default(0) }}"
 designate_oslomsg_rabbit_quorum_max_memory_bytes: "{{ oslomsg_rabbit_quorum_max_memory_bytes | default(0) }}"
 
-## (Qdrouterd) info
-# TODO(ansmith): Change structure when more backends will be supported
-designate_oslomsg_amqp1_enabled: "{{ designate_oslomsg_rpc_transport == 'amqp' }}"
-
 ## DNS Backend Configuration
 #  Configuration for the DNS backend that Designate will talk to, Designate
 #  supports lots of backends, bind9, powerdns, nsd, djb, dyn, akamai, etc.
@@ -233,9 +229,6 @@ designate_pip_packages:
   - "tooz[{{ designate_coordination_driver }}]"
   - warlock
 designate_user_pip_packages: []
-
-designate_optional_oslomsg_amqp1_pip_packages:
-  - oslo.messaging[amqp1]
 
 designate_central_init_overrides: {}
 designate_worker_init_overrides: {}

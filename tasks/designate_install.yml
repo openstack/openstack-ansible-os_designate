@@ -46,10 +46,7 @@
     venv_build_distro_package_list: "{{ designate_devel_distro_packages }}"
     venv_install_destination_path: "{{ designate_bin | dirname }}"
     venv_pip_install_args: "{{ designate_pip_install_args }}"
-    venv_pip_packages: >-
-      {{ designate_pip_packages |
-           union(designate_user_pip_packages) |
-             union(((designate_oslomsg_amqp1_enabled | bool) | ternary(designate_optional_oslomsg_amqp1_pip_packages, []))) }}
+    venv_pip_packages: "{{ designate_pip_packages | union(designate_user_pip_packages) }}"
     venv_facts_when_changed:
       - section: "designate"
         option: "venv_tag"
