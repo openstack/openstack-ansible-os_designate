@@ -14,7 +14,7 @@
 # limitations under the License.
 
 ## Verbosity Options
-debug: False
+debug: false
 
 # Enable/Disable Ceilometer
 designate_ceilometer_enabled: "{{ (groups['ceilometer_all'] is defined) and (groups['ceilometer_all'] | length > 0) }}"
@@ -237,7 +237,6 @@ designate_mdns_init_overrides: {}
 designate_sink_init_overrides: {}
 designate_api_init_overrides: {}
 
-
 ## Service Name-Group Mapping
 designate_services:
   designate-central:
@@ -301,7 +300,7 @@ designate_pki_setup_host: "{{ openstack_pki_setup_host | default('localhost') }}
 designate_pki_keys_path: "{{ designate_pki_dir ~ '/certs/private/' }}"
 designate_pki_certs_path: "{{ designate_pki_dir ~ '/certs/certs/' }}"
 designate_pki_intermediate_cert_name: "{{ openstack_pki_service_intermediate_cert_name | default('ExampleCorpIntermediate') }}"
-designate_pki_regen_cert: ''
+designate_pki_regen_cert: ""
 designate_pki_san: "{{ openstack_pki_san | default('DNS:' ~ ansible_facts['hostname'] ~ ',IP:' ~ management_address) }}"
 designate_pki_certificates:
   - name: "designate_{{ ansible_facts['hostname'] }}"

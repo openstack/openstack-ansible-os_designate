@@ -15,11 +15,11 @@
 #
 
 designate_package_list: |-
-    {% set packages = designate_distro_packages %}
-    {% if designate_rndc_keys is defined %}
-    {%   set _ = packages.extend(designate_rndc_packages) %}
-    {% endif %}
-    {{ packages }}
+  {% set packages = designate_distro_packages %}
+  {% if designate_rndc_keys is defined %}
+  {%   set _ = packages.extend(designate_rndc_packages) %}
+  {% endif %}
+  {{ packages }}
 
 _designate_bin: "/openstack/venvs/designate-{{ designate_venv_tag }}/bin"
 _designate_etc: "{{ _designate_bin | dirname + '/etc' }}"
