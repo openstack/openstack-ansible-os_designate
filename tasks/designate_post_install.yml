@@ -28,7 +28,7 @@
   delay: 15
 
 - name: Store project id for managed resources
-  set_fact:
+  ansible.builtin.set_fact:
     designate_managed_resource_tenant_id: "{{ _get_managed_resource_project.projects[0].id }}"
 
 - name: Copy designate config
@@ -71,7 +71,7 @@
     - designate-policy-override
 
 - name: Remove legacy policy.yaml file
-  file:
+  ansible.builtin.file:
     path: "/etc/designate/policy.yaml"
     state: absent
   when:
@@ -80,7 +80,7 @@
     - designate-policy-override
 
 - name: Create Designate rndc key file
-  template:
+  ansible.builtin.template:
     src: rndc.key.j2
     dest: "{{ item.file }}"
     owner: "{{ item.owner | default('root') }}"
@@ -90,7 +90,7 @@
   when: designate_rndc_keys is defined
 
 - name: Copy rootwrap filters
-  copy:
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/etc/designate/rootwrap.d/"
     owner: "root"

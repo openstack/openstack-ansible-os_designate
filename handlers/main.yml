@@ -15,7 +15,7 @@
 # limitations under the License.
 
 - name: Stop services
-  systemd:
+  ansible.builtin.systemd:
     name: "{{ item.service_name }}"
     state: "stopped"
   with_items: "{{ filtered_designate_services }}"
@@ -30,14 +30,14 @@
     - "cert installed"
 
 - name: Perform Designate pools update
-  command: "{{ designate_bin }}/designate-manage pool update --file /etc/designate/pools.yaml"
+  ansible.builtin.command: "{{ designate_bin }}/designate-manage pool update --file /etc/designate/pools.yaml"
   become: true
   become_user: "{{ designate_system_user_name }}"
   changed_when: false
   when: designate_pools_yaml is defined
 
 - name: Start services
-  systemd:
+  ansible.builtin.systemd:
     name: "{{ item.service_name }}"
     state: "started"
   with_items: "{{ filtered_designate_services }}"

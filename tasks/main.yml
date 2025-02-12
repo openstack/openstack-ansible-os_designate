@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: Fail if service was deployed using a different installation method
-  fail:
+  ansible.builtin.fail:
     msg: "Switching installation methods for OpenStack services is not supported"
   when:
     - ansible_local is defined
@@ -24,7 +24,7 @@
     - ansible_local.openstack_ansible.designate.install_method != designate_install_method
 
 - name: Gather variables for each operating system
-  include_vars: "{{ lookup('first_found', params) }}"
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
     params:
       files:
@@ -39,12 +39,12 @@
     - always
 
 - name: Gather variables for installation method
-  include_vars: "{{ designate_install_method }}_install.yml"
+  ansible.builtin.include_vars: "{{ designate_install_method }}_install.yml"
   tags:
     - always
 
 - name: Including osa.db_setup role
-  include_role:
+  ansible.builtin.include_role:
     name: openstack.osa.db_setup
     apply:
       tags:
@@ -66,7 +66,7 @@
     - always
 
 - name: Including osa.mq_setup role
-  include_role:
+  ansible.builtin.include_role:
     name: openstack.osa.mq_setup
     apply:
       tags:
@@ -93,17 +93,17 @@
     - always
 
 - name: Importing designate_pre_install tasks
-  import_tasks: designate_pre_install.yml
+  ansible.builtin.import_tasks: designate_pre_install.yml
   tags:
     - designate-install
 
 - name: Importing designate_install tasks
-  import_tasks: designate_install.yml
+  ansible.builtin.import_tasks: designate_install.yml
   tags:
     - designate-install
 
 - name: Create and install SSL certificates
-  include_role:
+  ansible.builtin.include_role:
     name: pki
     tasks_from: main_certs.yml
     apply:
@@ -123,14 +123,14 @@
     - always
 
 - name: Importing designate_post_install tasks
-  import_tasks: designate_post_install.yml
+  ansible.builtin.import_tasks: designate_post_install.yml
   tags:
     - designate-install
     - designate-config
     - post-install
 
 - name: Including osa.service_setup tasks
-  include_role:
+  ansible.builtin.include_role:
     name: openstack.osa.service_setup
     apply:
       tags:
@@ -166,7 +166,7 @@
     - always
 
 - name: Run the systemd service role
-  import_role:
+  ansible.builtin.import_role:
     name: systemd_service
   vars:
     systemd_user_name: "{{ designate_system_user_name }}"
@@ -185,16 +185,15 @@
     - systemd-service
 
 - name: Flush handlers
-  meta: flush_handlers
-
+  ansible.builtin.meta: flush_handlers
 - name: Importing designate_db_sync tasks
-  import_tasks: designate_db_sync.yml
+  ansible.builtin.import_tasks: designate_db_sync.yml
   when: _designate_is_first_play_host
   tags:
     - designate-install
 
 - name: Place Designate pools.yaml file
-  copy:
+  ansible.builtin.copy:
     content: "{{ designate_pools_yaml | to_nice_yaml }}"
     dest: "/etc/designate/pools.yaml"
     mode: "0640"
@@ -209,4 +208,4 @@
     - designate-config
 
 - name: Flush handlers
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers

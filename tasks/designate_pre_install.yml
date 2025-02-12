@@ -14,13 +14,13 @@
 # limitations under the License.
 
 - name: Create the system group
-  group:
+  ansible.builtin.group:
     name: "{{ designate_system_group_name }}"
     state: "present"
     system: "yes"
 
 - name: Create the designate system user
-  user:
+  ansible.builtin.user:
     name: "{{ designate_system_user_name }}"
     group: "{{ designate_system_group_name }}"
     comment: "{{ designate_system_comment }}"
@@ -30,7 +30,7 @@
     home: "{{ designate_system_user_home }}"
 
 - name: Create designate dir
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     state: directory
     owner: "{{ item.owner | default(designate_system_user_name) }}"
@@ -46,7 +46,7 @@
     - { path: "/var/cache/designate", mode: "0700" }
 
 - name: Drop sudoers file
-  template:
+  ansible.builtin.template:
     src: "sudoers.j2"
     dest: "/etc/sudoers.d/{{ designate_system_user_name }}_sudoers"
     mode: "0440"
