@@ -1,17 +1,8 @@
-========================
-Team and repository tags
-========================
-
-.. image:: https://governance.openstack.org/tc/badges/openstack-ansible-os_designate.svg
-    :target: https://governance.openstack.org/tc/reference/tags/index.html
-
-.. Change things from this point on
-
 ====================================
 Designate role for OpenStack-Ansible
 ====================================
 
-Ansible role to install OpenStack designate.
+Ansible role to install OpenStack Designate.
 
 Documentation for the project can be found at:
   https://docs.openstack.org/openstack-ansible-os_designate/latest
