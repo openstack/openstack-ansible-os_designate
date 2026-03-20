@@ -111,9 +111,10 @@
         - designate-config
         - pki
   vars:
+    pki_backend: "{{ designate_pki_backend }}"
     pki_setup_host: "{{ designate_pki_setup_host }}"
     pki_dir: "{{ designate_pki_dir }}"
-    pki_create_certificates: "{{ designate_user_ssl_cert is not defined and designate_user_ssl_key is not defined }}"
+    pki_create_certificates: "{{ designate_user_ssl_cert | length == 0 and designate_user_ssl_key | length == 0 }}"
     pki_regen_cert: "{{ designate_pki_regen_cert }}"
     pki_certificates: "{{ designate_pki_certificates }}"
     pki_install_certificates: "{{ designate_pki_install_certificates }}"

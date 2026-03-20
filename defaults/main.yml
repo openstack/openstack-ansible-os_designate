@@ -301,12 +301,14 @@ designate_pki_keys_path: "{{ designate_pki_dir ~ '/certs/private/' }}"
 designate_pki_certs_path: "{{ designate_pki_dir ~ '/certs/certs/' }}"
 designate_pki_intermediate_cert_name: "{{ openstack_pki_service_intermediate_cert_name | default('ExampleCorpIntermediate') }}"
 designate_pki_regen_cert: ""
-designate_pki_san: "{{ openstack_pki_san | default('DNS:' ~ ansible_facts['hostname'] ~ ',IP:' ~ management_address) }}"
+designate_pki_backend: "{{ openstack_pki_backend | default('standalone') }}"
+designate_pki_san: "{{ openstack_pki_san | default({'dns': [ansible_facts['hostname']], 'ip': [management_address]}) }}"
 designate_pki_certificates:
   - name: "designate_{{ ansible_facts['hostname'] }}"
-    provider: ownca
     cn: "{{ ansible_facts['hostname'] }}"
     san: "{{ designate_pki_san }}"
+    # standalone backend only
+    provider: ownca
     signed_by: "{{ designate_pki_intermediate_cert_name }}"
 
 # designate destination files for SSL certificates
@@ -315,17 +317,21 @@ designate_ssl_key: /etc/designate/designate.key
 
 # Installation details for SSL certificates
 designate_pki_install_certificates:
-  - src: "{{ designate_user_ssl_cert | default(designate_pki_certs_path ~ 'designate_' ~ ansible_facts['hostname'] ~ '-chain.crt') }}"
+  - name: "designate_{{ ansible_facts['hostname'] }}"
+    type: "certificate_chain"
     dest: "{{ designate_ssl_cert }}"
     owner: "{{ designate_system_user_name }}"
     group: "{{ designate_system_user_name }}"
-    mode: "0644"
-  - src: "{{ designate_user_ssl_key | default(designate_pki_keys_path ~ 'designate_' ~ ansible_facts['hostname'] ~ '.key.pem') }}"
+    # standalone backend only
+    src: "{{ designate_user_ssl_cert | default(designate_pki_certs_path ~ 'designate_' ~ ansible_facts['hostname'] ~ '-chain.crt') }}"
+  - name: "designate_{{ ansible_facts['hostname'] }}"
+    type: "private_key"
     dest: "{{ designate_ssl_key }}"
     owner: "{{ designate_system_user_name }}"
     group: "{{ designate_system_user_name }}"
-    mode: "0600"
+    # standalone backend only
+    src: "{{ designate_user_ssl_key | default(designate_pki_keys_path ~ 'designate_' ~ ansible_facts['hostname'] ~ '.key.pem') }}"
 
 # Define user-provided SSL certificates
-# designate_user_ssl_cert: <path to cert on ansible deployment host>
-# designate_user_ssl_key: <path to cert on ansible deployment host>
+designate_user_ssl_cert: ""
+designate_user_ssl_key: ""
