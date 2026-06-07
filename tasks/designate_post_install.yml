@@ -57,7 +57,7 @@
       config_type: "ini"
   notify: Restart designate services
 
-- name: Implement policy.yaml if there are overrides configured
+- name: Implement policy.yaml
   openstack.config_template.config_template:
     content: "{{ designate_policy_overrides }}"
     dest: "/etc/designate/policy.yaml"
@@ -65,17 +65,6 @@
     group: "{{ designate_system_group_name }}"
     mode: "0644"
     config_type: yaml
-  when:
-    - designate_policy_overrides | length > 0
-  tags:
-    - designate-policy-override
-
-- name: Remove legacy policy.yaml file
-  ansible.builtin.file:
-    path: "/etc/designate/policy.yaml"
-    state: absent
-  when:
-    - designate_policy_overrides | length == 0
   tags:
     - designate-policy-override
 
