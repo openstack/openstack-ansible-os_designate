@@ -55,7 +55,9 @@
       group: "root"
       config_overrides: "{{ designate_rootwrap_conf_overrides }}"
       config_type: "ini"
-  notify: Restart designate services
+  notify:
+    - Restart designate services
+    - Restart uwsgi services
 
 - name: Implement policy.yaml if there are overrides configured
   openstack.config_template.config_template:

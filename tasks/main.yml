@@ -185,6 +185,16 @@
     - designate-config
     - systemd-service
 
+- name: Import uwsgi role
+  ansible.builtin.import_role:
+    name: uwsgi
+  vars:
+    uwsgi_services: "{{ uwsgi_designate_services }}"
+    uwsgi_install_method: "{{ designate_install_method }}"
+  tags:
+    - designate-config
+    - uwsgi
+
 - name: Flush handlers
   ansible.builtin.meta: flush_handlers
 - name: Importing designate_db_sync tasks

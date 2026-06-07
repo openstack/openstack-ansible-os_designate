@@ -19,10 +19,6 @@
   src: https://opendev.org/openstack/openstack-ansible-lxc_container_create
   scm: git
   version: master
-- name: galera_client
-  src: https://opendev.org/openstack/openstack-ansible-galera_client
-  scm: git
-  version: master
 - name: galera_server
   src: https://opendev.org/openstack/openstack-ansible-galera_server
   scm: git
@@ -49,5 +45,9 @@
   version: master
 - name: python_venv_build
   src: https://opendev.org/openstack/ansible-role-python_venv_build
+  scm: git
+  version: master
+- name: uwsgi
+  src: https://opendev.org/openstack/ansible-role-uwsgi
   scm: git
   version: master
