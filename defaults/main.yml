@@ -236,6 +236,7 @@ designate_producer_init_overrides: {}
 designate_mdns_init_overrides: {}
 designate_sink_init_overrides: {}
 designate_api_init_overrides: {}
+designate_api_uwsgi_ini_overrides: {}
 
 ## Service Name-Group Mapping
 designate_services:
@@ -274,7 +275,21 @@ designate_services:
     service_name: designate-api
     init_config_overrides: "{{ designate_api_init_overrides }}"
     execstarts: "{{ designate_bin }}/designate-api"
+    wsgi_app: true
+    wsgi: "designate.wsgi.api:application"
+    uwsgi_overrides: "{{ designate_api_uwsgi_ini_overrides }}"
+    uwsgi_bind_address: "{{ designate_bind_address }}"
+    uwsgi_port: "{{ designate_service_port }}"
+    uwsgi_tls: "{{ designate_backend_ssl | ternary(designate_uwsgi_tls, {}) }}"
     start_order: 1
+
+# Designate uWSGI settings
+designate_wsgi_processes_max: 16
+designate_wsgi_processes: "{{ [[ansible_processor_vcpus | default(1), 1] | max * 2, designate_wsgi_processes_max] | min }}"
+designate_wsgi_threads: 1
+designate_uwsgi_tls:
+  crt: "{{ designate_ssl_cert }}"
+  key: "{{ designate_ssl_key }}"
 
 ## Tunable overrides
 designate_policy_overrides: {}

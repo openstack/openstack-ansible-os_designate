@@ -47,7 +47,8 @@ filtered_designate_services: |-
   {% for key, value in designate_services.items() %}
   {%   if (value['group'] in group_names) and
           (('condition' not in value) or
-           ('condition' in value and value['condition'])) %}
+           ('condition' in value and value['condition'])) and
+            not ('wsgi_app' in value and value['wsgi_app']) %}
   {%     set _ = value.update(
            {
              'service_key': key,
@@ -62,6 +63,26 @@ filtered_designate_services: |-
   {%   endif %}
   {% endfor %}
   {{ services | sort(attribute='start_order') }}
+
+uwsgi_designate_services: |-
+  {% set services = {} %}
+  {% for key, value in designate_services.items() %}
+  {%   if (value['group'] in group_names) and
+         (('condition' not in value) or ('condition' in value and value['condition']))
+         and ('wsgi_app' in value and value['wsgi_app']) %}
+  {%     set _ = value.update(
+            {
+             'wsgi_venv': designate_bin | dirname,
+             'uwsgi_uid': designate_system_user_name,
+             'uwsgi_guid': designate_system_group_name,
+             'uwsgi_processes': designate_wsgi_processes,
+             'uwsgi_threads': designate_wsgi_threads
+           }
+         ) %}
+  {%     set _ = services.update({key: value}) %}
+  {%   endif %}
+  {% endfor %}
+  {{ services }}
 
 _designate_coordination_url: >-
   {{ designate_coordination_driver }}://{{
