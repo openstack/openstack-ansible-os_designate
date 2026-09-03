@@ -220,7 +220,7 @@ designate_memcached_servers: "{{ memcached_servers }}"
 # Common pip packages
 designate_pip_packages:
   - cryptography
-  - "git+{{ designate_git_repo }}@{{ designate_git_install_branch }}#egg=designate"
+  - "designate@git+{{ designate_git_repo }}@{{ designate_git_install_branch }}"
   - osprofiler
   - python-designateclient
   - PyMySQL
